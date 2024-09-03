@@ -5,7 +5,7 @@ import { makeFriendActive } from "../../../features/slices/singleActiveFriendSli
 import { getDatabase, ref, remove } from "firebase/database";
 import { Bounce, toast } from "react-toastify";
 
-const SingleFriend = ({friend, unfriendInfo}) => {
+const SingleFriend = ({ friend, unfriendInfo }) => {
     const location = useLocation();
     const activeFriend = useSelector(state => state.activeFriend.activeFriend)
     const dispatch = useDispatch()
@@ -15,33 +15,33 @@ const SingleFriend = ({friend, unfriendInfo}) => {
     function handleUnfriending(friend) {
 
         const unfriendID = unfriendInfo.find((info) => info.friendID === friend.friendID).friendshipID
-    
-        const deleteRef = ref(db, `friends/${unfriendID}`)
-    
-        remove(deleteRef)
-          .then(() => {
-            console.log("Data successfully deleted!")
-          })
-          .catch(() => {
-            toast.error("Something went wrong, please try again", {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-              transition: Bounce,
-            })
-          })
-      }
 
-      function handleMakeFriendActive(friend) {
+        const deleteRef = ref(db, `friends/${unfriendID}`)
+
+        remove(deleteRef)
+            .then(() => {
+                console.log("Data successfully deleted!")
+            })
+            .catch(() => {
+                toast.error("Something went wrong, please try again", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                })
+            })
+    }
+
+    function handleMakeFriendActive(friend) {
         navigate(`/messages`)
         dispatch(makeFriendActive(friend))
-      }
-    
+    }
+
     if (location.pathname === "/") {
         return (
             <div

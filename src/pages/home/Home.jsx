@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import UserLists from "../../components/home/userList/UserList";
-import FriendRequestLists from "../../components/home/friendRequestList/FriendRequestList";
+import UserList from "../../components/home/userList/UserList";
+import FriendRequestList from "../../components/home/friendRequestList/FriendRequestList";
 import FriendList from "../../components/home/friendList/FriendList";
 import { useEffect, useState } from "react";
 import { getDatabase, ref, onValue } from "firebase/database";
@@ -38,7 +38,7 @@ const Home = () => {
 
           <h3 className="font-semibold">All Users</h3>
 
-          <UserLists friendRequests={friendRequests} setCancelRequests={setCancelRequests} cancelRequests={cancelRequests} />
+          <UserList friendRequests={friendRequests} setCancelRequests={setCancelRequests} cancelRequests={cancelRequests} />
 
         </div>
 
@@ -48,7 +48,7 @@ const Home = () => {
 
             <h3 className="font-semibold">Friend Requests</h3>
 
-            <FriendRequestLists friendRequests={friendRequests} cancelRequests={cancelRequests} />
+            <FriendRequestList friendRequests={friendRequests} cancelRequests={cancelRequests} />
 
           </div>
 

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import UserLists from "../../components/home/UserLists";
+import UserLists from "../../components/home/userList/UserList";
 import FriendRequestLists from "../../components/home/friendRequestList/FriendRequestList";
 import FriendList from "../../components/home/friendList/FriendList";
 import { useEffect, useState } from "react";

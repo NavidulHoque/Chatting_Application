@@ -45,9 +45,9 @@ const SingleFriend = ({ friend, unfriendInfo }) => {
     if (location.pathname === "/") {
         return (
             <div
-                className="flex justify-between items-center"
+                className="flex xl:flex-row flex-col xl:justify-between justify-center items-center gap-1"
             >
-                <div className="flex gap-x-2 items-center">
+                <div className="flex gap-x-2 items-center self-start">
 
                     <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
 
@@ -65,7 +65,7 @@ const SingleFriend = ({ friend, unfriendInfo }) => {
 
                 </div>
 
-                <div className="space-x-2">
+                <div className="space-x-2 self-end xl:self-center">
 
                     <button
                         onClick={() => handleMakeFriendActive(friend)}
@@ -91,7 +91,7 @@ const SingleFriend = ({ friend, unfriendInfo }) => {
         return (
             <div
                 className={`flex items-center gap-x-3 cursor-pointer ${activeFriend?.friendID === friend.friendID ?
-                    "bg-green-600 hover:bg-green-700 text-white px-3 py-[8px] rounded-md"
+                    "bg-green-600 hover:bg-green-700 text-white lg:px-3 px-1 py-[8px] rounded-md"
                     : "bg-white hover:bg-slate-100"}`}
                 onClick={() => dispatch(makeFriendActive(friend))}
             >

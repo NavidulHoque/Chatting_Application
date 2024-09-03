@@ -4,9 +4,9 @@ import avatar from "../../../assets/avatar.png"
 const SingleSender = ({ sender, handleAcceptance, handleRejection }) => {
 
     return (
-        <div className="flex justify-between items-center">
+        <div className="flex xl:flex-row flex-col xl:justify-between justify-center items-center gap-1">
 
-            <div className="flex gap-x-2 items-center">
+            <div className="flex gap-x-2 items-center self-start">
 
                 <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
 
@@ -18,7 +18,7 @@ const SingleSender = ({ sender, handleAcceptance, handleRejection }) => {
 
             </div>
 
-            <div className="flex gap-x-2">
+            <div className="flex gap-x-2 self-end xl:self-center">
 
                 <button onClick={() => handleAcceptance(sender)} className="w-[87px] h-[29px] rounded bg-[#4A81D3] text-white">Accept</button>
 

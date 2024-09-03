@@ -43,40 +43,53 @@ const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
         })
     }
     return (
-        <div className="flex justify-between items-center">
+        friendRequests.includes(loggedInUser.id + user.id) ?
+            (
+                <div className="flex xl:flex-row lg:flex-col xl:justify-between lg:justify-center justify-between items-center gap-1">
 
-            <div className="flex gap-x-2 items-center">
+                    <div className="flex gap-x-2 items-center self-start">
 
-                <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
+                        <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
 
-                    <img src={user.photoURL || avatar} alt="profilePic" className="w-full h-full" />
+                            <img src={user.photoURL || avatar} alt="profilePic" className="w-full h-full" />
+
+                        </div>
+
+                        <p>{user.displayName}</p>
+
+                    </div>
+
+                    <button
+                        onClick={() => handleCancelRequest(user)}
+                        className='bg-red-500 text-white rounded-md py-[10px] px-[5px] self-end xl:self-center'
+                    >
+                        Cancel request
+                    </button>
+                </div>
+            ) : (
+                <div className="flex justify-between items-center">
+
+                    <div className="flex gap-x-2 items-center">
+
+                        <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
+
+                            <img src={user.photoURL || avatar} alt="profilePic" className="w-full h-full" />
+
+                        </div>
+
+                        <p>{user.displayName}</p>
+
+                    </div>
+
+                    <div
+                        onClick={() => handleSendFriendRequest(user)}
+                        className="text-[#292D32] cursor-pointer"
+                    >
+                        <AddFriendIcon />
+                    </div>
 
                 </div>
-
-                <p>{user.displayName}</p>
-
-            </div>
-
-            {
-                friendRequests.includes(loggedInUser.id + user.id) ?
-                    (
-                        <button
-                            onClick={() => handleCancelRequest(user)}
-                            className='bg-red-500 text-white rounded-md py-[10px] px-[5px]'
-                        >
-                            Cancel request
-                        </button>
-                    ) : (
-                        <div
-                            onClick={() => handleSendFriendRequest(user)}
-                            className="text-[#292D32] cursor-pointer"
-                        >
-                            <AddFriendIcon />
-                        </div>
-                    )
-            }
-
-        </div>
+            )
     )
 }
 

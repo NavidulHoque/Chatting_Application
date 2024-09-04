@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import avatar from "../../../assets/avatar.png"
 
 const SingleSender = ({ sender, handleAcceptance, handleRejection }) => {
 
@@ -10,7 +9,7 @@ const SingleSender = ({ sender, handleAcceptance, handleRejection }) => {
 
                 <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
 
-                    <img src={sender.photoURL || avatar} alt="profile pic" className="w-full h-full" />
+                    <img src={sender.photoURL} alt="profile pic" className="w-full h-full" />
 
                 </div>
 

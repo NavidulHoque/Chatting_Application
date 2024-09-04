@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import CameraIcon from "../../icons/CameraIcon";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import FriendsIcon from './../../icons/FriendsIcon';
 import MessageIcon from './../../icons/MessageIcon';
 import { getAuth, signOut } from "firebase/auth";
@@ -9,10 +9,8 @@ import { Bounce, toast } from "react-toastify";
 import { createPortal } from "react-dom";
 import { useState } from "react";
 import UploadImage from "../../modals/UploadImage";
-import avatar from "../../assets/avatar.png"
 
 const Navbar = () => {
-  const {friendID} = useParams()
   const user = useSelector((state) => state.UserLogin.user)
   const location = useLocation()
   const navigate = useNavigate()
@@ -54,7 +52,7 @@ const Navbar = () => {
 
             <div className="rounded-full w-[64px] h-[64px] overflow-hidden">
 
-              <img src={user.photoURL || avatar} alt="profilePic" className="w-full h-full" />
+              <img src={user.photoURL} alt="profile" className="w-full h-full" />
 
             </div>
 
@@ -83,7 +81,7 @@ const Navbar = () => {
 
             <button
               onClick={() => navigate("/messages")}
-              className={`w-[40px] h-[40px] rounded-full cursor-pointer flex justify-center items-center ${location.pathname === "/messages" || location.pathname === `/messages/${friendID}`
+              className={`w-[40px] h-[40px] rounded-full cursor-pointer flex justify-center items-center ${location.pathname === "/messages"
                 ? "bg-[#6CD0FB] text-white"
                 : "bg-[#ECECEC] text-[#292D32]"
                 }`}

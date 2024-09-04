@@ -7,7 +7,6 @@ import { BeatLoader } from "react-spinners";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getDatabase, ref, set } from "firebase/database";
-import avatar from "../../assets/avatar.png"
 
 const SignUp = ({ toast }) => {
   const [loading, setLoading] = useState(false);
@@ -65,7 +64,7 @@ const SignUp = ({ toast }) => {
                 set(ref(db, 'users/' + user.uid), {
                   displayName: user.displayName,
                   email: user.email,
-                  photoURL: user.photoURL || avatar
+                  photoURL: user.photoURL || "https://i.ibb.co/7nqLQ9X/avatar.webp"
                 })
               })
               .catch(() => {

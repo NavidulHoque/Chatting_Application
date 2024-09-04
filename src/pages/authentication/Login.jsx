@@ -1,29 +1,36 @@
 import Lottie from "lottie-react";
 import LoginAnimation from "../../animations/LoginAnimation.json"
 import SignIn from "../../components/authentication/SignIn";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
-  return (
-    <div className="flex justify-center items-center h-screen">
+    return (
+        <>
+            <Helmet>
+                <title>Login</title>
+            </Helmet>
+            
+            <div className="flex justify-center items-center h-screen">
 
-            <div className="flex gap-x-7 w-[700px]">
+                <div className="flex gap-x-7 w-[700px]">
 
-                <div className="w-[48%]">
+                    <div className="w-[48%]">
 
-                    <Lottie animationData={LoginAnimation} loop={true} />
+                        <Lottie animationData={LoginAnimation} loop={true} />
 
-                </div>
+                    </div>
 
-                <div className="w-[48%] flex items-center">
+                    <div className="w-[48%] flex items-center">
 
-                    <SignIn />
+                        <SignIn />
+
+                    </div>
 
                 </div>
 
             </div>
-
-        </div>
-  )
+        </>
+    )
 }
 
 export default Login

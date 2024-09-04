@@ -7,7 +7,7 @@ const RootLayout = () => {
   const user = useSelector(state => state.UserLogin.user)
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <div className='relative h-screen bg-[#E8E8E8]'>
 
         <div className='bg-[#4A81D3] h-[300px]'></div>

@@ -31,7 +31,6 @@ const Chat = ({activeFriend}) => {
             setMessages(messages)
         })
 
-
     }, [db, loggedInUser.id, activeFriend?.friendID])
 
 

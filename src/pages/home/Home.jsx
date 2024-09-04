@@ -5,6 +5,7 @@ import FriendRequestList from "../../components/home/friendRequestList/FriendReq
 import FriendList from "../../components/home/friendList/FriendList";
 import { useEffect, useState } from "react";
 import { getDatabase, ref, onValue } from "firebase/database";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
   const user = useSelector((state) => state.UserLogin.user);
@@ -32,65 +33,77 @@ const Home = () => {
 
   if (user) {
     return (
-      <div className="grid lg:grid-cols-[2fr,5fr] h-[615px] bg-white">
+      <>
+        <Helmet>
+          <title>Home</title>
+        </Helmet>
 
-        <div className="bg-[#FBFBFB] p-[20px] overflow-y-auto h-[290px] lg:h-full">
+        <div className="grid lg:grid-cols-[2fr,5fr] h-[615px] bg-white">
 
-          <h3 className="font-semibold">All Users</h3>
+          <div className="bg-[#FBFBFB] p-[20px] overflow-y-auto h-[290px] lg:h-full">
 
-          <UserList friendRequests={friendRequests} setCancelRequests={setCancelRequests} cancelRequests={cancelRequests} />
+            <h3 className="font-semibold">All Users</h3>
 
-        </div>
-
-        <div className="grid grid-cols-2 gap-x-4 lg:gap-x-2 xl:gap-x-10 px-[5px] xl:px-[20px] lg:py-[15px]">
-
-          <div className="px-[20px] py-[10px] ml-[10px] lg:ml-0 overflow-y-auto shadow-[0_4px_17px__rgba(0,0,0,0.1)] rounded-md h-[290px] lg:h-full">
-
-            <h3 className="font-semibold">Friend Requests</h3>
-
-            <FriendRequestList friendRequests={friendRequests} cancelRequests={cancelRequests} />
+            <UserList friendRequests={friendRequests} setCancelRequests={setCancelRequests} cancelRequests={cancelRequests} />
 
           </div>
 
-          <div className="px-[20px] py-[10px] mr-[10px] lg:mr-0 overflow-y-auto shadow-[0_4px_17px__rgba(0,0,0,0.1)] rounded-md h-[290px] lg:h-full">
+          <div className="grid grid-cols-2 gap-x-4 lg:gap-x-2 xl:gap-x-10 px-[5px] xl:px-[20px] lg:py-[15px]">
 
-            <h3 className="font-semibold">Friends</h3>
+            <div className="px-[20px] py-[10px] ml-[10px] lg:ml-0 overflow-y-auto shadow-[0_4px_17px__rgba(0,0,0,0.1)] rounded-md h-[290px] lg:h-full">
 
-            <FriendList />
+              <h3 className="font-semibold">Friend Requests</h3>
+
+              <FriendRequestList friendRequests={friendRequests} cancelRequests={cancelRequests} />
+
+            </div>
+
+            <div className="px-[20px] py-[10px] mr-[10px] lg:mr-0 overflow-y-auto shadow-[0_4px_17px__rgba(0,0,0,0.1)] rounded-md h-[290px] lg:h-full">
+
+              <h3 className="font-semibold">Friends</h3>
+
+              <FriendList />
+
+            </div>
 
           </div>
 
         </div>
 
-      </div>
+      </>
     )
   }
 
   else if (!user) {
 
     return (
+      <>
+        <Helmet>
+          <title>Home</title>
+        </Helmet>
 
-      <div className="h-full relative flex flex-col items-center justify-center gap-y-3">
+        <div className="h-full relative flex flex-col items-center justify-center gap-y-3">
 
-        <h1 className="flex absolute top-[20px] text-center items-center justify-center text-[24px] px-[10px]">
-          Welcome To Chat Application
-        </h1>
+          <h1 className="flex absolute top-[20px] text-center items-center justify-center text-[24px] px-[10px]">
+            Welcome To Chat Application
+          </h1>
 
-        <button
-          onClick={() => navigate("/login")}
-          className="bg-[rgb(50,50,50)] text-white py-[8px] w-[75px] rounded-md hover:bg-black"
-        >
-          Login
-        </button>
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-[rgb(50,50,50)] text-white py-[8px] w-[75px] rounded-md hover:bg-black"
+          >
+            Login
+          </button>
 
-        <button
-          onClick={() => navigate("/registration")}
-          className="bg-[rgb(50,50,50)] text-white py-[8px] w-[75px] rounded-md hover:bg-black"
-        >
-          Register
-        </button>
+          <button
+            onClick={() => navigate("/registration")}
+            className="bg-[rgb(50,50,50)] text-white py-[8px] w-[75px] rounded-md hover:bg-black"
+          >
+            Register
+          </button>
 
-      </div>
+        </div>
+      </>
     )
   }
 }

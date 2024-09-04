@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import AddFriendIcon from '../../../icons/AddFriendIcon';
-import avatar from "../../../assets/avatar.png"
 import { getDatabase, push, ref, remove, set } from 'firebase/database';
 import { Bounce, toast } from 'react-toastify';
 
@@ -36,10 +35,10 @@ const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
         set(push(ref(db, 'friendRequests/')), {
             senderID: loggedInUser.id,
             senderName: loggedInUser.displayName,
-            senderPhoto: loggedInUser.photoURL || avatar,
+            senderPhoto: loggedInUser.photoURL,
             receiverID: receiver.id,
             receiverName: receiver.displayName,
-            receiverPhoto: receiver.photoURL || avatar
+            receiverPhoto: receiver.photoURL
         })
     }
     return (
@@ -51,7 +50,7 @@ const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
 
                         <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
 
-                            <img src={user.photoURL || avatar} alt="profilePic" className="w-full h-full" />
+                            <img src={user.photoURL} alt="profilePic" className="w-full h-full" />
 
                         </div>
 
@@ -73,7 +72,7 @@ const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
 
                         <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
 
-                            <img src={user.photoURL || avatar} alt="profilePic" className="w-full h-full" />
+                            <img src={user.photoURL} alt="profilePic" className="w-full h-full" />
 
                         </div>
 

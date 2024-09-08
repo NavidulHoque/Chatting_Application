@@ -33,7 +33,7 @@ const FriendList = () => {
 
       dispatch(storeFriends(friends))
     })
-  }, [db, dispatch, loggedInUser.id]);
+  }, [db, dispatch, loggedInUser.id])
 
 
   useEffect(() => {

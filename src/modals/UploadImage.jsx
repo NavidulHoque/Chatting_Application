@@ -11,16 +11,16 @@ import { LogIn } from "../features/slices/userLoginSlice";
 import { Bounce, toast } from "react-toastify";
 
 const UploadImage = ({ setOpen }) => {
-    const user = useSelector(state => state.UserLogin.user)
+    const loggedInUser = useSelector(state => state.UserLogin.user)
     const fileRef = useRef()
     const [image, setImage] = useState();
     const cropperRef = useRef()
     const [loading, setLoading] = useState(false)
     const storage = getStorage()
     const auth = getAuth()
-    const storageRef = ref(storage, user.id)
     const dispatch = useDispatch()
     const imageExtensions = ["jpg", "png", "jpeg", "tif", "webp", "avif"]
+    const [storageRef, setStorageRef] = useState(null);
 
     function handleChange(e) {
 
@@ -34,6 +34,9 @@ const UploadImage = ({ setOpen }) => {
         else if (e.target) {
             files = e.target.files
         }
+
+        const newStorageRef = ref(storage, `${loggedInUser.displayName} = profileImage/${files[0]}`)
+        setStorageRef(newStorageRef)
         const reader = new FileReader()
         reader.onload = () => {
             setImage(reader.result)
@@ -60,7 +63,7 @@ const UploadImage = ({ setOpen }) => {
                             })
                                 .then(() => {
                                     
-                                    dispatch(LogIn({...user, photoURL: downloadURL}))
+                                    dispatch(LogIn({...loggedInUser, photoURL: downloadURL}))
                                     setLoading(false)
                                     setOpen(false)
 

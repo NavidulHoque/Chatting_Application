@@ -10,6 +10,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { Bounce, toast } from 'react-toastify';
 import EmojiPicker from 'emoji-picker-react';
 import { getStorage, ref as Ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { v4 as uuidv4 } from 'uuid';
 
 const Chat = ({ activeFriend }) => {
     const db = getDatabase()
@@ -91,8 +92,11 @@ const Chat = ({ activeFriend }) => {
         const imageFileExtension = imageFile.name.split(".")[1]
 
         if (imageExtensions.includes(imageFileExtension) && imageFile.size < 1000000) {
+
+            const uniqueId = uuidv4()
+            const fileName = `${uniqueId}_${imageFile.name}`;
             
-            const storageRef = Ref(storage, `${loggedInUser.displayName} = messageImages/${imageFile}`);
+            const storageRef = Ref(storage, `${loggedInUser.displayName} = messageImages/${fileName}`);
 
             const uploadTask = uploadBytesResumable(storageRef, imageFile)
 

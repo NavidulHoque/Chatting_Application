@@ -2,7 +2,7 @@
 
 const MessagePicture = ({picture}) => {
   return (
-    <img className='w-full h-auto rounded-lg object-contain object-right' src={picture} alt='image' />
+    <img className='rounded-lg object-cover object-bottom' src={picture} alt='image' />
   )
 }
 

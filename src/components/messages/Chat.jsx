@@ -1,19 +1,28 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import EmojiIcon from './../../icons/EmojiIcon';
-import GalleryIcon from './../../icons/GalleryIcon';
+import EmojiIcon from './../../icons/EmojiIcon'
+import GalleryIcon from './../../icons/GalleryIcon'
 import { useSelector } from 'react-redux';
 import { getDatabase, onValue, push, ref, set } from 'firebase/database';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MessagePicture from './MessagePicture';
 import { formatDistanceToNow } from 'date-fns';
 import { Bounce, toast } from 'react-toastify';
+import EmojiPicker from 'emoji-picker-react';
+import { getStorage, ref as Ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-const Chat = ({activeFriend}) => {
+const Chat = ({ activeFriend }) => {
     const db = getDatabase()
     const loggedInUser = useSelector(state => state.UserLogin.user)
     const [sendMessage, setSendMessage] = useState("")
     const [messages, setMessages] = useState([])
+    const [showEmoji, setShowEmoji] = useState(false)
+    const scrollRef = useRef(null)
+    const fileRef = useRef(null)
+    const imageExtensions = ["jpg", "png", "jpeg", "tif", "webp", "avif"]
+    const storage = getStorage()
 
+    //fetching messages from db
     useEffect(() => {
         const messagesRef = ref(db, 'messages/')
         onValue(messagesRef, (snapshot) => {
@@ -33,6 +42,14 @@ const Chat = ({activeFriend}) => {
 
     }, [db, loggedInUser.id, activeFriend?.friendID])
 
+    //for scrolling down to latest messages
+    useEffect(() => {
+
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
+        }
+
+    }, [messages])
 
     function handleSendMessage() {
 
@@ -47,10 +64,89 @@ const Chat = ({activeFriend}) => {
             })
 
             setSendMessage("")
+            setShowEmoji(false)
         }
 
         else {
             toast.error("Please write some message", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            });
+        }
+    }
+
+    function handleAddEmoji({ emoji }) {
+        setSendMessage(prev => prev + emoji)
+    }
+
+    function handleImageFile(e) {
+        const imageFile = e.target.files[0]
+        const imageFileExtension = imageFile.name.split(".")[1]
+
+        if (imageExtensions.includes(imageFileExtension) && imageFile.size < 1000000) {
+            
+            const storageRef = Ref(storage, `${loggedInUser.displayName} = messageImages/${imageFile}`);
+
+            const uploadTask = uploadBytesResumable(storageRef, imageFile)
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    
+                },
+                (error) => {
+                    toast.error("Something went wrong, please try to send your image again", {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                        transition: Bounce,
+                    })
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        //storing the image message in realtime db
+                        set(push(ref(db, 'messages/')), {
+                            senderID: loggedInUser.id,
+                            receiverID: activeFriend?.friendID,
+                            message: "",
+                            photoURL: downloadURL,
+                            date: new Date().toString()
+                        })
+                    })
+                }
+            );
+        }
+
+        else if (imageFile.size >= 1000000) {
+            toast.error("Image file need to be smaller than 1MB", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            });
+        }
+
+        else {
+            toast.error("Please enter an image file", {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -69,7 +165,7 @@ const Chat = ({activeFriend}) => {
 
             <div className="bg-[#FBFBFB] h-[431px] overflow-y-auto">
 
-                <div className='flex flex-col gap-5 p-3'>
+                <div ref={scrollRef} className='flex flex-col gap-5 p-3'>
 
                     {messages.map(message => {
 
@@ -99,9 +195,9 @@ const Chat = ({activeFriend}) => {
 
                         else if (message.senderID === loggedInUser.id && message.photoURL) {
                             return (
-                                <div key={message.messageID} className='self-end flex flex-col'>
+                                <div key={message.messageID} className='self-end flex flex-col gap-y-2'>
 
-                                    <div className='self-end w-[300px] h-[190px]'>
+                                    <div className='self-end w-[500px] h-[300px] overflow-hidden rounded-lg'>
 
                                         <MessagePicture picture={message.photoURL} />
 
@@ -116,9 +212,9 @@ const Chat = ({activeFriend}) => {
 
                         else if (message.receiverID === loggedInUser.id && message.photoURL) {
                             return (
-                                <div key={message.messageID} className='self-start flex flex-col'>
+                                <div key={message.messageID} className='self-start flex flex-col gap-y-2'>
 
-                                    <div className='self-start w-[300px] h-[190px]'>
+                                    <div className='self-start w-[500px] h-[300px] overflow-hidden rounded-lg'>
 
                                         <MessagePicture picture={message.photoURL} />
 
@@ -127,7 +223,6 @@ const Chat = ({activeFriend}) => {
                                     <span className='self-start text-[14px] text-slate-500'>{formatDistanceToNow(new Date(message.date), { addSuffix: true })}</span>
 
                                 </div>
-
                             )
                         }
                     })}
@@ -142,13 +237,27 @@ const Chat = ({activeFriend}) => {
 
                     <div className="flex gap-x-3">
 
-                        <div className="#292D32 cursor-pointer">
-                            <EmojiIcon />
+                        <div className='relative'>
+
+                            <div onClick={() => setShowEmoji(prev => !prev)} className="#292D32 cursor-pointer">
+
+                                <EmojiIcon />
+
+                            </div>
+
+                            {showEmoji && (
+                                <div className='absolute bottom-[25px] left-[5px]'>
+                                    <EmojiPicker onEmojiClick={handleAddEmoji} />
+                                </div>
+                            )}
+
                         </div>
 
-                        <div className="#292D32 cursor-pointer">
+                        <div onClick={() => fileRef.current.click()} className="#292D32 cursor-pointer">
                             <GalleryIcon />
                         </div>
+
+                        <input type="file" ref={fileRef} onChange={handleImageFile} hidden />
 
                     </div>
 

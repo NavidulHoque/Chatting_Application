@@ -20,12 +20,13 @@ const UploadImage = ({ setOpen }) => {
     const auth = getAuth()
     const storageRef = ref(storage, user.id)
     const dispatch = useDispatch()
+    const imageExtensions = ["jpg", "png", "jpeg", "tif", "webp", "avif"]
 
     function handleChange(e) {
 
         e.preventDefault()
 
-        let files;
+        let files
         if (e.dataTransfer) {
             files = e.dataTransfer.files
         }
@@ -37,7 +38,7 @@ const UploadImage = ({ setOpen }) => {
         reader.onload = () => {
             setImage(reader.result)
         };
-        reader.readAsDataURL(files[0]);
+        reader.readAsDataURL(files[0])
     }
 
     const getCropData = () => {

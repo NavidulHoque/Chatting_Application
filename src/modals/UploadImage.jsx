@@ -9,18 +9,22 @@ import { useSelector } from "react-redux";
 import { useDispatch } from 'react-redux';
 import { LogIn } from "../features/slices/userLoginSlice";
 import { Bounce, toast } from "react-toastify";
+import { child, update, ref as Ref, getDatabase } from "firebase/database";
+import updateFriendRequestField from "../functions/updateFriendRequestField";
+import updateFriendField from "../functions/updateFriendField";
 
 const UploadImage = ({ setOpen }) => {
     const loggedInUser = useSelector(state => state.UserLogin.user)
+    const db = getDatabase()
     const fileRef = useRef()
     const [image, setImage] = useState();
     const cropperRef = useRef()
     const [loading, setLoading] = useState(false)
     const storage = getStorage()
     const auth = getAuth()
+    const [storageRef, setStorageRef] = useState(null)
     const dispatch = useDispatch()
     const imageExtensions = ["jpg", "png", "jpeg", "tif", "webp", "avif"]
-    const [storageRef, setStorageRef] = useState(null);
 
     function handleChange(e) {
 
@@ -62,11 +66,23 @@ const UploadImage = ({ setOpen }) => {
                                 photoURL: downloadURL
                             })
                                 .then(() => {
-                                    
-                                    dispatch(LogIn({...loggedInUser, photoURL: downloadURL}))
+
+                                    //updating in the users field
+                                    const userRef = child(Ref(db), `users/${loggedInUser.id}`);
+                                    return update(userRef, { photoURL: downloadURL })
+
+                                })
+                                .then(() => {
+
+                                    //changes in the front end
+                                    dispatch(LogIn({ ...loggedInUser, photoURL: downloadURL }))
                                     setLoading(false)
                                     setOpen(false)
 
+                                    updateFriendRequestField(loggedInUser, downloadURL)
+                                })
+                                .then(() => {
+                                    updateFriendField(loggedInUser, downloadURL)
                                 })
                                 .catch(() => {
 
@@ -80,11 +96,11 @@ const UploadImage = ({ setOpen }) => {
                                         progress: undefined,
                                         theme: "colored",
                                         transition: Bounce,
-                                    });
+                                    })
                                 })
                         })
-                })
 
+                })
         }
     }
 

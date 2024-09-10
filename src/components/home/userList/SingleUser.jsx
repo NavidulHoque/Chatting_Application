@@ -5,6 +5,7 @@ import { Bounce, toast } from 'react-toastify';
 
 const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
     const db = getDatabase()
+
     function handleCancelRequest(user) {
 
         const cancelRequestID = cancelRequests.find(req => req.receiverID === user.id && req.senderID === loggedInUser.id).friendRequestID
@@ -29,6 +30,7 @@ const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
                 });
             });
     }
+    
     function handleSendFriendRequest(receiver) {
 
         //storing the data in the database

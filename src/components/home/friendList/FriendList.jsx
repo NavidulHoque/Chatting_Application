@@ -66,7 +66,7 @@ const FriendList = () => {
     <div className="pt-5 flex flex-col gap-y-4">
 
       {sortingFriends(friends).map((friend) => (
-        <SingleFriend key={friend.friendID} friend={friend} unfriendInfo={unfriendInfo} />
+        <SingleFriend key={friend.friendID} friend={friend} unfriendInfo={unfriendInfo} loggedInUser={loggedInUser} />
       ))}
 
     </div>

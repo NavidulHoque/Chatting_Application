@@ -24,7 +24,6 @@ const UploadImage = ({ setOpen }) => {
     const auth = getAuth()
     const [storageRef, setStorageRef] = useState(null)
     const dispatch = useDispatch()
-    const imageExtensions = ["jpg", "png", "jpeg", "tif", "webp", "avif"]
 
     function handleChange(e) {
 

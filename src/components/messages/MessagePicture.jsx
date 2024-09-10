@@ -2,7 +2,7 @@
 
 const MessagePicture = ({picture}) => {
   return (
-    <img className='rounded-lg object-cover object-bottom' src={picture} alt='image' />
+    <img className='rounded-lg object-contain' src={picture} alt='image' />
   )
 }
 

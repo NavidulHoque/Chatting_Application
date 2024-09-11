@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { storeFriends } from "../../../features/slices/friendsSlice";
 import sortingFriends from "../../../functions/sortingFriends";
-import SingleFriend from "./SingleFriend";
+import SingleFriend from './SingleFriend';
 
 const FriendList = () => {
   const db = getDatabase();

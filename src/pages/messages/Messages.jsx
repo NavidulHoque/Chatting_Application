@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import FriendList from "../../components/home/friendList/FriendList"
-import Chat from "../../components/messages/Chat"
+import ChatContainer from "../../components/messages/chat/ChatContainer"
 import ChatNavbar from "../../components/messages/ChatNavbar"
 import { useEffect, useMemo } from "react"
 import { getDatabase } from "firebase/database"
@@ -54,7 +54,7 @@ const Messages = () => {
 
             <ChatNavbar activeFriend={activeFriend} />
 
-            <Chat activeFriend={activeFriend} />
+            <ChatContainer activeFriend={activeFriend} />
 
           </div>
 

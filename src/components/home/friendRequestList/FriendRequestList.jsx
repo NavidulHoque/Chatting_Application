@@ -34,7 +34,8 @@ const FriendRequestList = ({ friendRequests, cancelRequests }) => {
             setSenders([...senders])
         });
 
-    }, [db, loggedInUser.id, friendRequests]);
+    }, [db, loggedInUser.id, friendRequests])
+    
 
     function handleRejection(sender) {
         const cancelRequestID = cancelRequests.find(req => req.receiverID === loggedInUser.id && req.senderID === sender.id).friendRequestID

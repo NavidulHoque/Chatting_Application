@@ -29,22 +29,43 @@ const UploadImage = ({ setOpen }) => {
 
         e.preventDefault()
 
-        let files
+        let file
         if (e.dataTransfer) {
-            files = e.dataTransfer.files
+            file = e.dataTransfer.files[0]
         }
 
         else if (e.target) {
-            files = e.target.files
+            file = e.target.files[0]
         }
 
-        const newStorageRef = ref(storage, `${loggedInUser.displayName} = profileImage/${files[0]}`)
-        setStorageRef(newStorageRef)
-        const reader = new FileReader()
-        reader.onload = () => {
-            setImage(reader.result)
-        };
-        reader.readAsDataURL(files[0])
+        const isImageFile = file.type.includes("image")
+
+        if (isImageFile) {
+
+            const imageFile = file
+
+            const newStorageRef = ref(storage, `${loggedInUser.displayName} = profileImage/${imageFile}`)
+            setStorageRef(newStorageRef)
+            const reader = new FileReader()
+            reader.onload = () => {
+                setImage(reader.result)
+            };
+            reader.readAsDataURL(imageFile)
+        }
+
+        else {
+            toast.error("Please enter an image file", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            })
+        }
     }
 
     const getCropData = () => {

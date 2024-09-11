@@ -2,6 +2,7 @@
 import AddFriendIcon from '../../../icons/AddFriendIcon';
 import { getDatabase, push, ref, remove, set } from 'firebase/database';
 import { Bounce, toast } from 'react-toastify';
+import UserDetails from '../common/UserDetails';
 
 const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
     const db = getDatabase()
@@ -48,17 +49,7 @@ const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
             (
                 <div className="flex xl:flex-row lg:flex-col xl:justify-between lg:justify-center justify-between items-center gap-1">
 
-                    <div className="flex gap-x-2 items-center self-start">
-
-                        <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
-
-                            <img src={user.photoURL} alt="profilePic" className="w-full h-full" />
-
-                        </div>
-
-                        <p>{user.displayName}</p>
-
-                    </div>
+                    <UserDetails user={user} />
 
                     <button
                         onClick={() => handleCancelRequest(user)}
@@ -66,21 +57,12 @@ const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
                     >
                         Cancel request
                     </button>
+
                 </div>
             ) : (
                 <div className="flex justify-between items-center">
 
-                    <div className="flex gap-x-2 items-center">
-
-                        <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
-
-                            <img src={user.photoURL} alt="profilePic" className="w-full h-full" />
-
-                        </div>
-
-                        <p>{user.displayName}</p>
-
-                    </div>
+                    <UserDetails user={user} />
 
                     <div
                         onClick={() => handleSendFriendRequest(user)}

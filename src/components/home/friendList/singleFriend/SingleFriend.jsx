@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { makeFriendActive } from "../../../features/slices/singleActiveFriendSlice";
+import { makeFriendActive } from "../../../../features/slices/singleActiveFriendSlice";
 import { getDatabase, onValue, push, ref, remove, set } from "firebase/database";
 import { Bounce, toast } from "react-toastify";
 import { useEffect, useMemo } from "react";
-import { storeBlockees } from "../../../features/slices/blockeesSlice";
-import { storeBlockers } from "../../../features/slices/blockersSlice";
+import { storeBlockees } from "../../../../features/slices/blockeesSlice";
+import { storeBlockers } from "../../../../features/slices/blockersSlice";
+import Button from "../../common/Button";
+import FriendDetails from "./FriendDetails";
 
 const SingleFriend = ({ friend, unfriendInfo, loggedInUser }) => {
     const location = useLocation()
@@ -142,39 +144,13 @@ const SingleFriend = ({ friend, unfriendInfo, loggedInUser }) => {
             <div
                 className="flex xl:flex-row flex-col xl:justify-between justify-center items-center gap-1"
             >
-                <div className="flex gap-x-2 items-center self-start">
-
-                    <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
-
-                        <img
-                            src={friend.friendPhoto}
-                            alt="profile pic"
-                            className="w-full h-full"
-                        />
-
-                    </div>
-
-                    <p>
-                        {friend.friendName}
-                    </p>
-
-                </div>
+                <FriendDetails friend={friend} />
 
                 <div className="space-x-2 self-end xl:self-center">
 
-                    <button
-                        onClick={() => handleMakeFriendActive(friend)}
-                        className="w-[75px] h-[29px] rounded bg-[#4A81D3] text-white"
-                    >
-                        Message
-                    </button>
+                    <Button label="Message" handleClick={handleMakeFriendActive} user={friend} bgColor="bg-[#4A81D3]" />
 
-                    <button
-                        onClick={() => handleUnfriend(friend)}
-                        className="w-[75px] h-[29px] rounded bg-[#4A81D3] text-white"
-                    >
-                        Unfriend
-                    </button>
+                    <Button label="Unfriend" handleClick={handleUnfriend} user={friend} bgColor="bg-[#4A81D3]" />
 
                 </div>
 
@@ -191,53 +167,25 @@ const SingleFriend = ({ friend, unfriendInfo, loggedInUser }) => {
                         : "bg-white hover:bg-slate-100"}`}
                     onClick={() => dispatch(makeFriendActive(friend))}
                 >
-                    <div className="flex items-center gap-x-2">
-
-                        <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
-
-                            <img
-                                src={friend.friendPhoto}
-                                alt="profile pic"
-                                className="w-full h-full"
-                            />
-
-                        </div>
-
-                        <p>
-                            {friend.friendName}
-                        </p>
-
-                    </div>
+                    <FriendDetails friend={friend} />
 
                     <div className="flex space-x-2">
 
-                        <button
-                            onClick={() => handleUnfriend(friend)}
-                            className="w-[75px] h-[29px] rounded bg-[#4A81D3] text-white"
-                        >
-                            Unfriend
-                        </button>
+                        <Button label="Unfriend" handleClick={handleUnfriend} user={friend} bgColor="bg-[#4A81D3]" />
 
                         {isTheFriendBlockee ? (
-                            <button
-                                onClick={() => handleUnblock(friend)}
-                                className="w-[75px] h-[29px] rounded bg-[#4A81D3] text-white"
-                            >
-                                Unblock
-                            </button>
+
+                            <Button label="Unblock" handleClick={handleUnblock} user={friend} bgColor="bg-[#D34A4A]" />
+
                         )
                             : isTheFriendBlocker ? "" : (
-                                <button
-                                    onClick={() => handleBlock(friend)}
-                                    className="w-[75px] h-[29px] rounded bg-[#4A81D3] text-white"
-                                >
-                                    Block
-                                </button>
+
+                                <Button label="Block" handleClick={handleBlock} user={friend} bgColor="bg-[#D34A4A]" />
                             )}
 
                     </div>
 
-                </div >
+                </div>
 
             </>
         )

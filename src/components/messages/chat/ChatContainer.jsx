@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-
 import { useSelector } from 'react-redux';
 import { getDatabase, onValue, ref } from 'firebase/database';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -61,9 +60,9 @@ const ChatContainer = ({ activeFriend }) => {
 
     return (
         <>
-            <div className="h-[511px]">
+            <div className="h-[960px]">
 
-                <div className="bg-[#FBFBFB] h-[431px] overflow-y-auto">
+                <div className="bg-[#FBFBFB] h-[760px] overflow-y-auto">
 
                     <div ref={scrollRef} className='flex flex-col gap-5 p-3'>
 

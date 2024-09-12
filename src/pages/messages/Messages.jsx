@@ -38,11 +38,11 @@ const Messages = () => {
       <Helmet>
         <title>Messages</title>
       </Helmet>
-      <div className="grid grid-cols-[2fr,5fr] h-[615px] bg-white">
+      <div className="grid grid-cols-[2fr,5fr] h-full w-full bg-white">
 
-        <div className="bg-[#FBFBFB] p-[20px] h-full overflow-y-auto">
+        <div className="bg-[#FBFBFB] p-[10px] h-full overflow-y-auto">
 
-          <h3 className="font-semibold">Friends</h3>
+          <h3 className="font-semibold text-[30px] text-[#494949]">Friends</h3>
 
           <FriendList />
 

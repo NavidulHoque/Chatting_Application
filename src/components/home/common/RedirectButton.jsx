@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
+import { useNavigate } from "react-router-dom";
 import { motion } from 'framer-motion';
 
-const Button = ({ label, handleClick, user, bgColor }) => {
+const RedirectButton = ({ label, path }) => {
+    const navigate = useNavigate();
     return (
         <motion.button
             whileHover={{ scale: 1.2 }}
@@ -10,12 +12,12 @@ const Button = ({ label, handleClick, user, bgColor }) => {
                 rotate: -90,
                 borderRadius: "100%"
             }}
-            onClick={() => handleClick(user)}
-            className={`w-[123px] h-[41px] rounded ${bgColor} text-white`}
+            onClick={() => navigate(`/${path}`)}
+            className="bg-[rgb(50,50,50)] text-white py-[8px] w-[75px] rounded-md hover:bg-black"
         >
             {label}
         </motion.button>
     )
 }
 
-export default Button
+export default RedirectButton

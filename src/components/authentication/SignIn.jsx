@@ -4,12 +4,14 @@ import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { BeatLoader } from "react-spinners";
 import { Bounce } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { LogIn } from "../../features/slices/userLoginSlice";
 import { storeID } from "../../features/slices/setTimeOutSlice";
 import { signIn } from "../../validation/Validation";
+import InputField from "./common/InputField";
+import Button from "./common/Button";
+import Redirect from "./common/Redirect";
 
 const SignIn = ({ toast }) => {
 
@@ -106,51 +108,29 @@ const SignIn = ({ toast }) => {
       className="flex flex-col gap-y-7 w-full font-interRegular"
     >
 
-      <div className={divStyle}>
+      <InputField 
+        divStyle={divStyle} 
+        textStyle={textStyle} 
+        inputStyle={inputStyle} 
+        errorTextStyle={errorTextStyle} 
+        formik={formik} 
+        label="Enter Email" 
+        type="email" 
+        name="email" 
+      />
 
-        <label htmlFor="email" className={textStyle}>Enter Email</label>
+      <InputField 
+        divStyle={divStyle} 
+        textStyle={textStyle} 
+        inputStyle={inputStyle} 
+        errorTextStyle={errorTextStyle} 
+        formik={formik} 
+        label="Enter Password" 
+        type="password" 
+        name="password" 
+      />
 
-        <input
-          type="email"
-          className={inputStyle}
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          name="email"
-          id="email"
-        />
-
-        {formik.errors.email && formik.touched.email && (
-          <p className={errorTextStyle}>{formik.errors.email}</p>
-        )}
-
-      </div>
-
-      <div className={divStyle}>
-
-        <label htmlFor="password" className={textStyle}>Enter Password</label>
-
-        <input
-          type="password"
-          className={inputStyle}
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          name="password"
-          id="password"
-        />
-
-        {formik.errors.password && formik.touched.password && (
-          <p className={errorTextStyle}>{formik.errors.password}</p>
-        )}
-
-      </div>
-
-      <button
-        type="submit"
-        className="w-[460px] h-[60px] hover:bg-black bg-[#313131] text-white text-[20px] rounded-lg"
-        disabled={loading}
-      >
-        {loading ? <BeatLoader color="#fff" size={10} /> : "Sign In"}
-      </button>
+      <Button loading={loading} label="Sign In" />
 
       <Link
         to='/passwordReset'
@@ -159,9 +139,7 @@ const SignIn = ({ toast }) => {
         Forget Password?
       </Link>
 
-      <p className="text-[16px]">
-        Don’t have an account please <Link to="/registration" className="text-blue-600 underline">sign up</Link>
-      </p>
+      <Redirect label="Don’t have an account?" link="sign up" path="registration" />
 
     </form>
   )

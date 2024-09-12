@@ -1,18 +1,20 @@
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import UserList from "../../components/home/userList/UserList";
 import FriendRequestList from "../../components/home/friendRequestList/FriendRequestList";
 import FriendList from "../../components/home/friendList/FriendList";
 import { useEffect, useState } from "react";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { Helmet } from "react-helmet-async";
+import RedirectButton from "../../components/home/common/RedirectButton";
+import Animation from "../../components/home/animation/Animation";
+import { motion } from 'framer-motion';
 
 const Home = () => {
   const user = useSelector((state) => state.UserLogin.user);
-  const navigate = useNavigate();
   const [friendRequests, setFriendRequests] = useState([])
   const db = getDatabase()
   const [cancelRequests, setCancelRequests] = useState([])
+  const headingStyle = "text-[#494949] font-semibold text-[30px]"
 
   //storing friend request information
   useEffect(() => {
@@ -38,11 +40,11 @@ const Home = () => {
           <title>Home</title>
         </Helmet>
 
-        <div className="grid lg:grid-cols-[2fr,5fr] h-[615px] bg-white">
+        <div className="grid lg:grid-cols-[2fr,5fr] h-full w-full bg-white">
 
           <div className="bg-[#FBFBFB] p-[20px] overflow-y-auto h-[290px] lg:h-full">
 
-            <h3 className="font-semibold">All Users</h3>
+            <h3 className={headingStyle}>All Users</h3>
 
             <UserList friendRequests={friendRequests} setCancelRequests={setCancelRequests} cancelRequests={cancelRequests} />
 
@@ -52,7 +54,7 @@ const Home = () => {
 
             <div className="px-[20px] py-[10px] ml-[10px] lg:ml-0 overflow-y-auto shadow-[0_4px_17px__rgba(0,0,0,0.1)] rounded-md h-[290px] lg:h-full">
 
-              <h3 className="font-semibold">Friend Requests</h3>
+              <h3 className={headingStyle}>Friend Requests</h3>
 
               <FriendRequestList friendRequests={friendRequests} cancelRequests={cancelRequests} />
 
@@ -60,7 +62,7 @@ const Home = () => {
 
             <div className="px-[20px] py-[10px] mr-[10px] lg:mr-0 overflow-y-auto shadow-[0_4px_17px__rgba(0,0,0,0.1)] rounded-md h-[290px] lg:h-full">
 
-              <h3 className="font-semibold">Friends</h3>
+              <h3 className={headingStyle}>Friends</h3>
 
               <FriendList />
 
@@ -82,25 +84,36 @@ const Home = () => {
           <title>Home</title>
         </Helmet>
 
-        <div className="h-full relative flex flex-col items-center justify-center gap-y-3">
+        <div className="h-full bg-blue-500 flex flex-col gap-7 p-10">
 
-          <h1 className="flex absolute top-[20px] text-center items-center justify-center text-[24px] px-[10px]">
+          <motion.h1
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{
+              type: "spring",
+              stiffness: 260,
+              damping: 20
+            }}
+            className="text-center text-[24px] text-white px-[10px]"
+          >
+
             Welcome To Chat Application
-          </h1>
 
-          <button
-            onClick={() => navigate("/login")}
-            className="bg-[rgb(50,50,50)] text-white py-[8px] w-[75px] rounded-md hover:bg-black"
-          >
-            Login
-          </button>
+          </motion.h1>
 
-          <button
-            onClick={() => navigate("/registration")}
-            className="bg-[rgb(50,50,50)] text-white py-[8px] w-[75px] rounded-md hover:bg-black"
-          >
-            Register
-          </button>
+          <div className="h-[500px] flex justify-center items-center gap-x-24">
+
+            <Animation />
+
+            <div className="space-x-3">
+
+              <RedirectButton label="Login" path="login" />
+
+              <RedirectButton label="Register" path="registration" />
+
+            </div>
+
+          </div>
 
         </div>
       </>

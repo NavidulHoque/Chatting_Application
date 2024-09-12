@@ -12,11 +12,11 @@ const ChatNavbar = ({activeFriend}) => {
     }, [friends, activeFriend?.friendID])
 
     return (
-        <nav className="bg-[rgb(50,50,50)] h-[80px] w-full flex items-center justify-center">
+        <nav className="bg-[rgb(50,50,50)] h-[100px] w-full flex items-center justify-center">
 
             <div className="flex items-center gap-x-3 w-[90%]">
 
-                <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
+                <div className="rounded-full w-[82px] h-[82px] overflow-hidden">
 
                     <img src={friend?.friendPhoto} alt="profilePic" 
                         className="w-full h-full"

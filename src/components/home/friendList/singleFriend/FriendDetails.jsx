@@ -4,7 +4,7 @@ const FriendDetails = ({ friend }) => {
     return (
         <div className="flex gap-x-2 items-center self-start">
 
-            <div className="rounded-full w-[45px] h-[45px] overflow-hidden">
+            <div className="rounded-full w-[82px] h-[82px] overflow-hidden">
 
                 <img
                     src={friend.friendPhoto}
@@ -14,7 +14,7 @@ const FriendDetails = ({ friend }) => {
 
             </div>
 
-            <p>
+            <p className="text-[23px]">
                 {friend.friendName}
             </p>
             

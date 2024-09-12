@@ -3,10 +3,11 @@ import { useFormik } from "formik";
 import { signUp } from "../../validation/Validation";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import { Bounce, toast } from "react-toastify";
-import { BeatLoader } from "react-spinners";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { getDatabase, ref, set } from "firebase/database";
+import InputField from "./common/InputField";
+import Button from "./common/Button";
+import Redirect from "./common/Redirect";
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
@@ -131,91 +132,53 @@ const SignUp = () => {
   return (
     <form onSubmit={formik.handleSubmit} className="flex flex-col gap-y-7 w-full font-interRegular">
 
-      <div className={divStyle}>
+      <InputField
+        divStyle={divStyle}
+        textStyle={textStyle}
+        inputStyle={inputStyle}
+        errorTextStyle={errorTextStyle}
+        formik={formik}
+        label="Enter Name"
+        type="text"
+        name="name"
+      />
 
-        <label htmlFor="name" className={textStyle}>Enter Name</label>
+      <InputField
+        divStyle={divStyle}
+        textStyle={textStyle}
+        inputStyle={inputStyle}
+        errorTextStyle={errorTextStyle}
+        formik={formik}
+        label="Enter Email"
+        type="email"
+        name="email"
+      />
 
-        <input
-          type="text"
-          className={inputStyle}
-          value={formik.values.name}
-          onChange={formik.handleChange}
-          name="name"
-          id="name"
-        />
+      <InputField
+        divStyle={divStyle}
+        textStyle={textStyle}
+        inputStyle={inputStyle}
+        errorTextStyle={errorTextStyle}
+        formik={formik}
+        label="Enter Password"
+        type="password"
+        name="password"
+      />
 
-        {formik.errors.name && formik.touched.name && (
-          <p className={errorTextStyle}>{formik.errors.name}</p>
-        )}
+      <InputField
+        divStyle={divStyle}
+        textStyle={textStyle}
+        inputStyle={inputStyle}
+        errorTextStyle={errorTextStyle}
+        formik={formik}
+        label="Confirm Password"
+        type="password"
+        name="confirmPassword"
+      />
 
-      </div>
+      <Button loading={loading} label="Sign Up" />
 
-      <div className={divStyle}>
-
-        <label htmlFor="email" className={textStyle}>Enter Email</label>
-
-        <input
-          type="email"
-          className={inputStyle}
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          name="email"
-          id="email"
-        />
-
-        {formik.errors.email && formik.touched.email && (
-          <p className={errorTextStyle}>{formik.errors.email}</p>
-        )}
-
-      </div>
-
-      <div className={divStyle}>
-
-        <label htmlFor="password" className={textStyle}>Enter Password</label>
-
-        <input
-          type="password"
-          className={inputStyle}
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          name="password"
-          id="password"
-        />
-
-        {formik.errors.password && formik.touched.password && (
-          <p className={errorTextStyle}>{formik.errors.password}</p>
-        )}
-
-      </div>
-
-      <div className={divStyle}>
-
-        <label htmlFor="confirmPassword" className={textStyle}>Confirm Password</label>
-
-        <input
-          type="password"
-          className={inputStyle}
-          value={formik.values.confirmPassword}
-          onChange={formik.handleChange}
-          name="confirmPassword"
-          id="confirmPassword"
-        />
-
-        {formik.errors.confirmPassword && formik.touched.confirmPassword && (
-          <p className={errorTextStyle}>{formik.errors.confirmPassword}</p>
-        )}
-
-      </div>
-
-      <button
-        type="submit"
-        className="w-[460px] h-[60px] hover:bg-black bg-[#313131] text-white text-[20px] rounded-lg"
-        disabled={loading}
-      >
-        {loading ? <BeatLoader color="#fff" size={10} /> : "Sign Up"}
-      </button>
-
-      <p className="text-[16px]">Already have an account please <Link to='/login' className="text-blue-600">sign in</Link></p>
+      <Redirect label="Already have an account?" link="sign in" path="login" />
 
     </form>
   );

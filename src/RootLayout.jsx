@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import Navbar from './components/navbar/Navbar';
+import Sidebar from './components/sidebar/Sidebar';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
@@ -8,14 +8,10 @@ const RootLayout = () => {
   return (
     <>
       <ToastContainer />
-      <div className='relative h-screen'>
+      <div className='h-screen flex overflow-hidden font-interRegular'>
 
-        <div className="absolute z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[700px] xl:w-[1250px] w-[95vw] bg-white font-interRegular">
-
-          {user && <Navbar />}
-          <Outlet />
-
-        </div>
+        {user && <Sidebar />}
+        <Outlet />
 
       </div>
     </>

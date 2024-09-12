@@ -1,5 +1,4 @@
-import Lottie from "lottie-react";
-import LoginAnimation from "../../animations/LoginAnimation.json"
+import { ToastContainer } from "react-toastify";
 import SignIn from "../../components/authentication/SignIn";
 import { Helmet } from "react-helmet-async";
 
@@ -9,22 +8,14 @@ const Login = () => {
             <Helmet>
                 <title>Login</title>
             </Helmet>
-            
-            <div className="flex justify-center items-center h-screen">
+            <ToastContainer />
+            <div className="flex flex-col justify-center items-center h-screen box-border">
 
-                <div className="flex gap-x-7 w-[700px]">
+                <h1 className='font-jotiRegular text-[80px]'>TalkNest</h1>
 
-                    <div className="w-[48%]">
+                <div className="w-[560px] h-[600px] flex items-center rounded-md shadow-[0_4px_11px_#0000001C] px-[50px]">
 
-                        <Lottie animationData={LoginAnimation} loop={true} />
-
-                    </div>
-
-                    <div className="w-[48%] flex items-center">
-
-                        <SignIn />
-
-                    </div>
+                    <SignIn />
 
                 </div>
 

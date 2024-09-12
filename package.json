@@ -16,7 +16,6 @@
     "firebase": "^10.12.4",
     "formik": "^2.4.6",
     "framer-motion": "^11.3.31",
-    "lottie-react": "^2.4.0",
     "react": "^18.3.1",
     "react-cropper": "^2.3.3",
     "react-dom": "^18.3.1",

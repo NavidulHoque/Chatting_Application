@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {},
     fontFamily: {
-      robotoRegular: ["roboto-regular"],
-      robotoBold: ["roboto-bold"]
+      jotiRegular: ["joti-regular"],
+      interRegular: ["inter-regular"]
     }
   },
   plugins: [],

@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: "roboto-regular";
-    src: url("./fonts/Roboto-Regular.ttf");
+    font-family: "joti-regular";
+    src: url("./fonts/JotiOne-Regular.ttf");
 }
 
 @font-face {
-    font-family: "roboto-bold";
-    src: url("./fonts/Roboto-Bold.ttf");
+    font-family: "inter-regular";
+    src: url("./fonts/Inter_18pt-Regular.ttf");
 }

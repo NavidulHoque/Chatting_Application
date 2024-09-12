@@ -2,21 +2,28 @@
 import { useFormik } from "formik";
 import { signUp } from "../../validation/Validation";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
-import { Bounce } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getDatabase, ref, set } from "firebase/database";
 
-const SignUp = ({ toast }) => {
+const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const auth = getAuth();
-  const db = getDatabase();
+  const db = getDatabase()
+
+  //style variables
+  const textStyle = "text-[#484848] text-[18px]"
+  const inputStyle = "w-[460px] h-[60px] text-[20px] text-[#484848] px-[10px] border-[2px] border-[#D8D8D8] rounded-md outline-none"
+  const divStyle = "flex flex-col gap-y-3"
+  const errorTextStyle = "text-red-500"
 
   const initialValues = {
     name: "",
     email: "",
     password: "",
+    confirmPassword: ""
   };
 
   const formik = useFormik({
@@ -122,58 +129,93 @@ const SignUp = ({ toast }) => {
   }
 
   return (
-    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-y-4 w-full font-robotoRegular">
+    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-y-7 w-full font-interRegular">
 
-      <h2 className="text-[20px] font-robotoBold">Create an Account</h2>
+      <div className={divStyle}>
 
-      <input
-        type="text"
-        placeholder="enter your name"
-        className="border-black border-[2px] outline-none px-[5px] py-2 text-[18px] rounded-md"
-        value={formik.values.name}
-        onChange={formik.handleChange}
-        name="name"
-      />
+        <label htmlFor="name" className={textStyle}>Enter Name</label>
 
-      {formik.errors.name && formik.touched.name && (
-        <p className="text-red-500">{formik.errors.name}</p>
-      )}
+        <input
+          type="text"
+          className={inputStyle}
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          name="name"
+          id="name"
+        />
 
-      <input
-        type="email"
-        placeholder="enter your email"
-        className="border-black border-[2px] outline-none px-[5px] py-2 text-[18px] rounded-md"
-        value={formik.values.email}
-        onChange={formik.handleChange}
-        name="email"
-      />
+        {formik.errors.name && formik.touched.name && (
+          <p className={errorTextStyle}>{formik.errors.name}</p>
+        )}
 
-      {formik.errors.email && formik.touched.email && (
-        <p className="text-red-500">{formik.errors.email}</p>
-      )}
+      </div>
 
-      <input
-        type="password"
-        placeholder="enter your password"
-        className="border-black border-[2px] outline-none px-[5px] py-2 text-[18px] rounded-md"
-        value={formik.values.password}
-        onChange={formik.handleChange}
-        name="password"
-      />
+      <div className={divStyle}>
 
-      {formik.errors.password && formik.touched.password && (
-        <p className="text-red-500">{formik.errors.password}</p>
-      )}
+        <label htmlFor="email" className={textStyle}>Enter Email</label>
+
+        <input
+          type="email"
+          className={inputStyle}
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          name="email"
+          id="email"
+        />
+
+        {formik.errors.email && formik.touched.email && (
+          <p className={errorTextStyle}>{formik.errors.email}</p>
+        )}
+
+      </div>
+
+      <div className={divStyle}>
+
+        <label htmlFor="password" className={textStyle}>Enter Password</label>
+
+        <input
+          type="password"
+          className={inputStyle}
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          name="password"
+          id="password"
+        />
+
+        {formik.errors.password && formik.touched.password && (
+          <p className={errorTextStyle}>{formik.errors.password}</p>
+        )}
+
+      </div>
+
+      <div className={divStyle}>
+
+        <label htmlFor="confirmPassword" className={textStyle}>Confirm Password</label>
+
+        <input
+          type="password"
+          className={inputStyle}
+          value={formik.values.confirmPassword}
+          onChange={formik.handleChange}
+          name="confirmPassword"
+          id="confirmPassword"
+        />
+
+        {formik.errors.confirmPassword && formik.touched.confirmPassword && (
+          <p className={errorTextStyle}>{formik.errors.confirmPassword}</p>
+        )}
+
+      </div>
 
       <button
         type="submit"
-        className="hover:bg-black bg-[rgb(50,50,50)] text-white rounded-md py-2"
+        className="w-[460px] h-[60px] hover:bg-black bg-[#313131] text-white text-[20px] rounded-lg"
         disabled={loading}
       >
-        {loading ? <BeatLoader color="#fff" size={5} /> : "Sign Up"}
+        {loading ? <BeatLoader color="#fff" size={10} /> : "Sign Up"}
       </button>
 
-      <p className="text-slate-500">Already signed up? <Link to='/login' className="text-blue-600 underline">Sign In</Link></p>
+      <p className="text-[16px]">Already have an account please <Link to='/login' className="text-blue-600">sign in</Link></p>
 
     </form>
   );

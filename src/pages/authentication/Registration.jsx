@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
-import Lottie from "lottie-react";
-import RegAnimation from "../../animations/RegAnimation.json"
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { Helmet } from "react-helmet-async";
 import SignUp from "../../components/authentication/SignUp";
 
@@ -12,21 +10,13 @@ const Registration = () => {
                 <title>Registration</title>
             </Helmet>
             <ToastContainer />
-            <div className="flex justify-center items-center h-screen">
+            <div className="flex flex-col justify-center items-center h-screen box-border">
 
-                <div className="flex gap-x-7 w-[700px]">
+                <h1 className='font-jotiRegular text-[80px]'>TalkNest</h1>
 
-                    <div className="w-[48%]">
+                <div className="w-[560px] h-[800px] flex items-center rounded-md shadow-[0_4px_18px_#0000000F] px-[50px]">
 
-                        <Lottie animationData={RegAnimation} loop={true} />
-
-                    </div>
-
-                    <div className="w-[48%] flex items-center">
-
-                        <SignUp toast={toast} />
-
-                    </div>
+                    <SignUp />
 
                 </div>
 

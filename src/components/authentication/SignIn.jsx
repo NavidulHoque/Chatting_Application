@@ -7,7 +7,6 @@ import { useState } from "react";
 import { Bounce } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { LogIn } from "../../features/slices/userLoginSlice";
-import { storeID } from "../../features/slices/setTimeOutSlice";
 import { signIn } from "../../validation/Validation";
 import InputField from "./common/InputField";
 import Button from "./common/Button";
@@ -63,9 +62,9 @@ const SignIn = ({ toast }) => {
 
           const timeOutID = setTimeout(() => {
             navigate("/")
-          }, 1000);
+          }, 1000)
 
-          dispatch(storeID(timeOutID))
+          return () => clearTimeout(timeOutID)
         }
 
         else {

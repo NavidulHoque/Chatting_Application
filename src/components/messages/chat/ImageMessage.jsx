@@ -6,7 +6,7 @@ const ImageMessage = ({message, alignSelf}) => {
         <div className={`${alignSelf} flex flex-col gap-y-2`}>
 
             <div
-                className={`${alignSelf} w-[500px] h-[400px] bg-cover bg-center rounded-lg`}
+                className={`${alignSelf} sm:w-[300px] w-[200px] sm:h-[250px] h-[150px] bg-cover bg-center rounded-lg`}
                 style={{ backgroundImage: `url(${message.photoURL})` }}
             >
 

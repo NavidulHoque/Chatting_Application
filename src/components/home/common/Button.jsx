@@ -10,8 +10,11 @@ const Button = ({ label, handleClick, user, bgColor }) => {
                 rotate: -90,
                 borderRadius: "100%"
             }}
-            onClick={() => handleClick(user)}
-            className={`w-[123px] h-[41px] rounded ${bgColor} text-white`}
+            onClick={(e) => {
+                e.stopPropagation()
+                handleClick(user)
+            }}
+            className={`lg:w-[120px] w-[100px] h-[41px] rounded ${bgColor} text-white`}
         >
             {label}
         </motion.button>

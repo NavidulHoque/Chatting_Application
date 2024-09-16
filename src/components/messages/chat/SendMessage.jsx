@@ -7,6 +7,7 @@ import { Bounce, toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, ref as Ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getDatabase, push, ref, set } from 'firebase/database';
+import MicrophoneIcon from './../../../icons/MicrophoneIcon';
 
 const SendMessage = ({loggedInUser, activeFriend}) => {
     const [message, setMessage] = useState("")
@@ -130,15 +131,19 @@ const SendMessage = ({loggedInUser, activeFriend}) => {
     }
 
     return (
-        <div className="bg-[#F5F5F5] h-[80px] rounded-b-md flex items-center justify-center">
+        <div className="sm:bg-white sm:h-[15%] h-[11%] rounded-b-md flex items-center justify-center">
 
-            <div className="bg-white w-[500px] p-[10px] py-[9px] flex items-center justify-between gap-x-3 rounded-md">
+            <div className="bg-[#F5F5F5] sm:w-[90%] w-full self-end sm:self-center flex items-center justify-between gap-x-3 p-[10px] rounded-md">
 
                 <div className="flex gap-x-3">
 
+                    <div className="#292D32 cursor-pointer">
+                        <MicrophoneIcon />
+                    </div>
+
                     <div className='relative'>
 
-                        <div onClick={() => setShowEmoji(prev => !prev)} className="#292D32 cursor-pointer">
+                        <div onClick={() => setShowEmoji(prev => !prev)} className="#353535 cursor-pointer">
 
                             <EmojiIcon />
 
@@ -162,14 +167,14 @@ const SendMessage = ({loggedInUser, activeFriend}) => {
 
                 <input
                     type="text"
-                    className='outline-none pb-[3px] w-[60%]'
-                    placeholder='type something'
+                    className='bg-[#F5F5F5] text-[20px] outline-none pb-[3px] w-[80%]'
+                    placeholder='type here...'
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" ? handleSendMessage() : ""}
                 />
 
-                <button onClick={handleSendMessage} className='bg-[#4A81D3] text-white rounded-md w-[98px] h-[37px]'>Send</button>
+                <button onClick={handleSendMessage} className='bg-[#3E8DEB] text-white text-[20px] rounded-lg w-[134px] h-[54px]'>Send</button>
 
             </div>
 

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { makeFriendActive } from "../../../../features/slices/singleActiveFriendSlice";
 import { getDatabase, onValue, push, ref, remove, set } from "firebase/database";
 import { Bounce, toast } from "react-toastify";
@@ -8,14 +8,15 @@ import { useEffect, useMemo } from "react";
 import { storeBlockees } from "../../../../features/slices/blockeesSlice";
 import { storeBlockers } from "../../../../features/slices/blockersSlice";
 import Button from "../../common/Button";
-import FriendDetails from "./FriendDetails";
+import FriendDetails from "./FriendDetails"
+import ButtonContainer from "../../common/ButtonContainer"
+import SingleUserContainer from "../../common/SingleUserContainer"
 
 const SingleFriend = ({ friend, unfriendInfo, loggedInUser }) => {
     const location = useLocation()
     const activeFriend = useSelector(state => state.activeFriend.activeFriend)
     const dispatch = useDispatch()
     const db = getDatabase()
-    const navigate = useNavigate()
     const blockees = useSelector(state => state.blockees.blockees)
     const blockers = useSelector(state => state.blockers.blockers)
 
@@ -97,11 +98,6 @@ const SingleFriend = ({ friend, unfriendInfo, loggedInUser }) => {
             })
     }
 
-    function handleMakeFriendActive(friend) {
-        navigate(`/messages`)
-        dispatch(makeFriendActive(friend))
-    }
-
     function handleBlock(friend) {
 
         //storing the data in the database
@@ -141,35 +137,44 @@ const SingleFriend = ({ friend, unfriendInfo, loggedInUser }) => {
 
     if (location.pathname === "/") {
         return (
-            <div
-                className="flex xl:flex-row flex-col xl:justify-between justify-center items-center gap-1"
-            >
-                <FriendDetails friend={friend} />
+            <SingleUserContainer>
 
-                <div className="space-x-2 self-end xl:self-center">
+                <FriendDetails friend={friend} extraStyle="self-start" />
 
-                    <Button label="Message" handleClick={handleMakeFriendActive} user={friend} bgColor="bg-[#4A81D3]" />
+                <ButtonContainer>
 
                     <Button label="Unfriend" handleClick={handleUnfriend} user={friend} bgColor="bg-[#4A81D3]" />
 
-                </div>
+                    {isTheFriendBlockee ? (
 
-            </div>
+                        <Button label="Unblock" handleClick={handleUnblock} user={friend} bgColor="bg-[#D34A4A]" />
+
+                    )
+                        : isTheFriendBlocker ? "" : (
+
+                            <Button label="Block" handleClick={handleBlock} user={friend} bgColor="bg-[#D34A4A]" />
+                        )}
+
+                </ButtonContainer>
+
+            </SingleUserContainer>
         )
     }
 
     else if (location.pathname === "/messages") {
         return (
             <>
-                <div
-                    className={`flex justify-between items-center gap-x-3 px-1 cursor-pointer ${activeFriend?.friendID === friend.friendID ?
-                        "bg-green-500 text-black py-[8px] rounded-md"
-                        : "bg-white hover:bg-slate-100"}`}
+                <SingleUserContainer
+
+                    extraStyle={activeFriend?.friendID === friend.friendID ?
+                        "bg-green-500 text-black p-[20px] cursor-pointer"
+                        : "bg-white hover:bg-slate-100 p-[20px] cursor-pointer"}
+
                     onClick={() => dispatch(makeFriendActive(friend))}
                 >
-                    <FriendDetails friend={friend} />
+                    <FriendDetails friend={friend} extraStyle="self-start" />
 
-                    <div className="flex space-x-2">
+                    <ButtonContainer>
 
                         <Button label="Unfriend" handleClick={handleUnfriend} user={friend} bgColor="bg-[#4A81D3]" />
 
@@ -183,9 +188,9 @@ const SingleFriend = ({ friend, unfriendInfo, loggedInUser }) => {
                                 <Button label="Block" handleClick={handleBlock} user={friend} bgColor="bg-[#D34A4A]" />
                             )}
 
-                    </div>
+                    </ButtonContainer>
 
-                </div>
+                </SingleUserContainer>
 
             </>
         )

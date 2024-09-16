@@ -31,7 +31,7 @@ const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
                 });
             });
     }
-    
+
     function handleSendFriendRequest(receiver) {
 
         //storing the data in the database
@@ -47,18 +47,19 @@ const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
     return (
         friendRequests.includes(loggedInUser.id + user.id) ?
             (
-                <div className="flex xl:flex-row lg:flex-col xl:justify-between lg:justify-center justify-between items-center gap-1">
+                <div className="flex min-[1770px]:flex-row xl:flex-col min-[1770px]:justify-between xl:justify-center justify-between items-center gap-x-1 gap-y-3">
 
                     <UserDetails user={user} />
 
                     <button
                         onClick={() => handleCancelRequest(user)}
-                        className='bg-red-500 text-white rounded-md py-[10px] px-[5px] self-end xl:self-center'
+                        className='bg-red-500 text-white rounded-md py-[10px] px-[5px] xl:self-end min-[1770px]:self-center'
                     >
                         Cancel request
                     </button>
 
                 </div>
+
             ) : (
                 <div className="flex justify-between items-center">
 

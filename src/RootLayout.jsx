@@ -8,7 +8,7 @@ const RootLayout = () => {
   return (
     <>
       <ToastContainer />
-      <div className='h-screen flex overflow-hidden font-interRegular'>
+      <div className='h-screen flex flex-col sm:flex-row overflow-hidden font-interRegular box-border'>
 
         {user && <Sidebar />}
         <Outlet />

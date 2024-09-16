@@ -9,7 +9,7 @@ export default {
     fontFamily: {
       jotiRegular: ["joti-regular"],
       interRegular: ["inter-regular"]
-    }
+    },
   },
   plugins: [],
 }

@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet-async";
 import RedirectButton from "../../components/home/common/RedirectButton";
 import Animation from "../../components/home/animation/Animation";
 import { motion } from 'framer-motion';
+import ListContainer from "../../components/home/common/ListContainer";
 
 const Home = () => {
   const user = useSelector((state) => state.UserLogin.user);
@@ -40,33 +41,33 @@ const Home = () => {
           <title>Home</title>
         </Helmet>
 
-        <div className="grid lg:grid-cols-[2fr,5fr] h-full w-full bg-white">
+        <div className="grid xl:grid-cols-[2fr,5fr] xl:gap-x-8 md:gap-y-5 h-full w-full md:p-8">
 
-          <div className="bg-[#FBFBFB] p-[20px] overflow-y-auto h-[290px] lg:h-full">
+          <ListContainer shadow="md:shadow-[0_4px_11px_#00000021]">
 
             <h3 className={headingStyle}>All Users</h3>
 
             <UserList friendRequests={friendRequests} setCancelRequests={setCancelRequests} cancelRequests={cancelRequests} />
 
-          </div>
+          </ListContainer>
 
-          <div className="grid grid-cols-2 gap-x-4 lg:gap-x-2 xl:gap-x-10 px-[5px] xl:px-[20px] lg:py-[15px]">
+          <div className="grid md:grid-cols-2 gap-x-5 xl:gap-x-8">
 
-            <div className="px-[20px] py-[10px] ml-[10px] lg:ml-0 overflow-y-auto shadow-[0_4px_17px__rgba(0,0,0,0.1)] rounded-md h-[290px] lg:h-full">
+            <ListContainer shadow="md:shadow-[0_4px_17px_#0000001A]">
 
               <h3 className={headingStyle}>Friend Requests</h3>
 
               <FriendRequestList friendRequests={friendRequests} cancelRequests={cancelRequests} />
 
-            </div>
+            </ListContainer>
 
-            <div className="px-[20px] py-[10px] mr-[10px] lg:mr-0 overflow-y-auto shadow-[0_4px_17px__rgba(0,0,0,0.1)] rounded-md h-[290px] lg:h-full">
+            <ListContainer shadow="md:shadow-[0_4px_17px_#0000001A]">
 
-              <h3 className={headingStyle}>Friends</h3>
+              <h3 className={headingStyle}>My Friends</h3>
 
               <FriendList />
 
-            </div>
+            </ListContainer>
 
           </div>
 
@@ -84,7 +85,7 @@ const Home = () => {
           <title>Home</title>
         </Helmet>
 
-        <div className="h-full bg-blue-500 flex flex-col gap-7 p-10">
+        <div className="h-full w-full bg-blue-500 flex flex-col gap-7 p-10">
 
           <motion.h1
             initial={{ scale: 0 }}
@@ -94,7 +95,7 @@ const Home = () => {
               stiffness: 260,
               damping: 20
             }}
-            className="text-center text-[24px] text-white px-[10px]"
+            className="text-center text-[36px] text-white px-[10px]"
           >
 
             Welcome To Chat Application
@@ -121,4 +122,4 @@ const Home = () => {
   }
 }
 
-export default Home;
+export default Home

@@ -13,6 +13,8 @@ const Messages = () => {
   const friends = useSelector(state => state.friends.friends)
   const db = getDatabase()
   const dispatch = useDispatch()
+  const windowInnerWidth = window.innerWidth
+
   const isFriend = useMemo(() => {
 
     if (friends.find(friend => friend.friendID === activeFriend?.friendID)) {
@@ -25,7 +27,6 @@ const Messages = () => {
 
   }, [friends, activeFriend?.friendID])
 
-
   useEffect(() => {
     if (!isFriend) {
       dispatch(removeActiveFriend())
@@ -33,24 +34,52 @@ const Messages = () => {
 
   }, [db, isFriend, dispatch])
 
-  return (
-    <>
-      <Helmet>
-        <title>Messages</title>
-      </Helmet>
-      <div className="grid grid-cols-[2fr,5fr] h-full w-full bg-white">
+  if (windowInnerWidth >= 900) {
+    return (
+      <>
+        <Helmet>
+          <title>Messages</title>
+        </Helmet>
+        <div className="flex gap-x-5 h-full w-full xl:p-8 px-[10px]">
 
-        <div className="bg-[#FBFBFB] p-[10px] h-full overflow-y-auto">
+          <div className="h-full w-[35%] overflow-y-auto shadow-[0_4px_17px_#0000001A] rounded-lg">
 
-          <h3 className="font-semibold text-[30px] text-[#494949]">Friends</h3>
+            <h3 className="font-semibold text-[30px] text-[#494949] p-[20px]">My Friends</h3>
 
-          <FriendList />
+            <FriendList />
+
+          </div>
+
+          {activeFriend ? (
+
+            <div className="h-full w-[65%] rounded-lg shadow-[0_4px_10px_#00000024] relative">
+
+              <ChatNavbar activeFriend={activeFriend} />
+
+              <ChatContainer activeFriend={activeFriend} />
+
+            </div>
+
+          ) : (
+
+            <Animation />
+
+          )}
 
         </div>
+      </>
+    )
+  }
 
+  else if (windowInnerWidth < 900) {
+    return (
+      <>
+        <Helmet>
+          <title>Messages</title>
+        </Helmet>
         {activeFriend ? (
 
-          <div className="m-3 rounded-md shadow-[0_4px_19px__rgba(0,0,0,0.1)]">
+          <div className="h-full w-full relative">
 
             <ChatNavbar activeFriend={activeFriend} />
 
@@ -60,13 +89,26 @@ const Messages = () => {
 
         ) : (
 
-          <Animation />
+          <div className="flex flex-col h-full w-full p-[10px]">
+
+            <h1 className="text-blue-500 text-[30px] text-center font-semibold">Select a Friend to start chatting</h1>
+
+            <div className="w-full h-[98%] overflow-y-auto shadow-[0_4px_17px_#0000001A] rounded-lg">
+
+              <h3 className="font-semibold text-[30px] text-[#494949] p-[20px]">My Friends</h3>
+
+              <FriendList />
+
+            </div>
+
+          </div>
 
         )}
 
-      </div>
-    </>
-  )
+      </>
+    )
+
+  }
 }
 
 export default Messages

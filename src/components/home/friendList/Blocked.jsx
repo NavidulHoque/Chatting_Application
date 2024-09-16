@@ -21,9 +21,9 @@ const Blocked = ({isBlockerAvailable, isBlockeeAvailable, blockees, blockers, ac
     }, [isBlockerAvailable, isBlockeeAvailable, blockers, blockees, activeFriend])
     
   return (
-    <div className="bg-[rgba(255,255,255,0.8)] flex justify-center items-center fixed top-[95px] z-10 w-[870px] h-[591px]">
+    <div className="bg-[rgba(255,255,255,0.8)] w-full h-full flex justify-center items-center absolute top-0 z-10">
 
-        {isBlockeeAvailable && <h1 className="text-[30px] text-blue-600 font-semibold">Unblock {blockee?.blockeeName} to chat further</h1>}
+        {isBlockeeAvailable && <h1 className="text-[30px] text-blue-600 text-center font-semibold px-3">Unblock {blockee?.blockeeName} to chat further</h1>}
 
         {isBlockerAvailable && <h1 className="text-[30px] text-blue-600 font-semibold">{blocker?.blockerName} blocked you, you can't message any further</h1>}
       

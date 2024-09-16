@@ -60,9 +60,9 @@ const ChatContainer = ({ activeFriend }) => {
 
     return (
         <>
-            <div className="h-[960px]">
+            <div className="h-[87%]">
 
-                <div className="bg-[#FBFBFB] h-[760px] overflow-y-auto">
+                <div className="bg-white sm:h-[85%] h-[89%] overflow-y-auto">
 
                     <div ref={scrollRef} className='flex flex-col gap-5 p-3'>
 

@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 
-const FriendDetails = ({ friend }) => {
+const FriendDetails = ({ friend, extraStyle }) => {
     return (
-        <div className="flex gap-x-2 items-center self-start">
+        <div className={`flex gap-x-2 items-center ${extraStyle}`}>
 
             <div className="rounded-full w-[82px] h-[82px] overflow-hidden">
 
                 <img
-                    src={friend.friendPhoto}
+                    src={friend?.friendPhoto}
                     alt="profile pic"
                     className="w-full h-full"
                 />
@@ -15,7 +15,7 @@ const FriendDetails = ({ friend }) => {
             </div>
 
             <p className="text-[23px]">
-                {friend.friendName}
+                {friend?.friendName}
             </p>
             
         </div>

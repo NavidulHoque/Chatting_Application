@@ -2,7 +2,7 @@
 import * as Yup from "yup";
 
 export const signUp = Yup.object({
-    name: Yup.string().min(4).max(15).required("Please fill up your name"),
+    name: Yup.string().min(4).max(12).required("Please fill up your name"),
 
     email: Yup.string().email().required("Please fill up your email"),
 

@@ -5,9 +5,11 @@ import { getDatabase, ref, onValue } from "firebase/database";
 import { useSelector } from 'react-redux';
 import sortingUsers from '../../../functions/sortingUsers';
 import SingleUser from './SingleUser';
+import renderSearchedUsers from '../../../functions/renderSearchedUsers';
 
 const UserList = ({ friendRequests, setCancelRequests, cancelRequests }) => {
     const [users, setUsers] = useState([])
+    const [searchUsers, setSearchUsers] = useState("")
     const loggedInUser = useSelector(state => state.UserLogin.user)
     const db = getDatabase()
     const friends = useSelector(state => state.friends.friends)
@@ -55,11 +57,19 @@ const UserList = ({ friendRequests, setCancelRequests, cancelRequests }) => {
 
     }, [db])
 
-    
+
     return (
         <div className="pt-5 flex flex-col gap-y-3">
 
-            {sortingUsers(users).map((user) => (
+            <input 
+                type="text"
+                placeholder='Search Users...'
+                value={searchUsers}
+                onChange={(e) => setSearchUsers(e.target.value)}
+                className='w-full h-[66px] bg-[#F8F8F8] text-[24px] px-[10px] rounded-lg outline-none'
+            />
+
+            {renderSearchedUsers(sortingUsers(users), searchUsers.trim()).map((user) => (
                 <SingleUser key={user.id} user={user} cancelRequests={cancelRequests} loggedInUser={loggedInUser} friendRequests={friendRequests} />
             ))}
 

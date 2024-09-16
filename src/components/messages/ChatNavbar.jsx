@@ -1,10 +1,15 @@
 /* eslint-disable react/prop-types */
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from "react";
+import FriendDetails from "../home/friendList/singleFriend/FriendDetails";
+import { removeActiveFriend } from "../../features/slices/singleActiveFriendSlice";
+import { motion } from 'framer-motion';
 
-const ChatNavbar = ({activeFriend}) => {
+const ChatNavbar = ({ activeFriend }) => {
     const friends = useSelector(state => state.friends.friends)
-    
+    const dispatch = useDispatch()
+    const windowInnerWidth = window.innerWidth
+
     const friend = useMemo(() => {
 
         return friends.find(friend => friend.friendID === activeFriend?.friendID)
@@ -12,21 +17,24 @@ const ChatNavbar = ({activeFriend}) => {
     }, [friends, activeFriend?.friendID])
 
     return (
-        <nav className="bg-[rgb(50,50,50)] h-[100px] w-full flex items-center justify-center">
+        <nav className="bg-[#F9F9F9] h-[13%] w-full flex items-center justify-center px-2 rounded-t-lg">
 
-            <div className="flex items-center gap-x-3 w-[90%]">
+            <FriendDetails friend={friend} extraStyle="w-[90%]" />
 
-                <div className="rounded-full w-[82px] h-[82px] overflow-hidden">
-
-                    <img src={friend?.friendPhoto} alt="profilePic" 
-                        className="w-full h-full"
-                    />
-
-                </div>
-
-                <p className="text-white text-[20px]">{friend?.friendName}</p>
-
-            </div>
+            {windowInnerWidth < 900 && (
+                <motion.button
+                    className='lg:w-[120px] w-[100px] h-[41px] rounded bg-[#4A81D3] text-white'
+                    onClick={() => dispatch(removeActiveFriend())}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{
+                        scale: 0.8,
+                        rotate: -90,
+                        borderRadius: "100%"
+                    }}
+                >
+                    Go Back
+                </motion.button>
+            )}
 
         </nav>
     )

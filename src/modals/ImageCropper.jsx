@@ -6,9 +6,9 @@ import { BeatLoader } from "react-spinners"
 const ImageCropper = ({ image, setImage, cropperRef, getCropData, loading }) => {
     
     return (
-        <div className="fixed top-0 w-full z-10 bg-[rgba(0,0,0,0.4)] h-screen flex items-center justify-center ">
+        <div className="fixed top-0 w-full z-40 bg-[rgba(0,0,0,0.4)] h-screen flex items-center justify-center ">
 
-            <div className="bg-white w-[30%] rounded-md p-[10px] space-y-4">
+            <div className="bg-white xl:w-[40%] md:w-[40%] w-[80%] rounded-md p-[10px] space-y-4">
 
                 <div className="relative">
 

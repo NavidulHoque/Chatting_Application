@@ -13,7 +13,7 @@ const RedirectButton = ({ label, path }) => {
                 borderRadius: "100%"
             }}
             onClick={() => navigate(`/${path}`)}
-            className="bg-[rgb(50,50,50)] text-white py-[8px] w-[75px] rounded-md hover:bg-black"
+            className="bg-[rgb(50,50,50)] text-white text-[24px] p-[10px] rounded-md hover:bg-black"
         >
             {label}
         </motion.button>

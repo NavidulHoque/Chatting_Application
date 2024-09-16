@@ -1,4 +1,5 @@
-const EmojiIcon = () => {
+
+const MicrophoneIcon = () => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -8,30 +9,30 @@ const EmojiIcon = () => {
             fill="none"
         >
             <path
-                d="M16.5 30.25C24.0939 30.25 30.25 24.0939 30.25 16.5C30.25 8.90608 24.0939 2.75 16.5 2.75C8.90608 2.75 2.75 8.90608 2.75 16.5C2.75 24.0939 8.90608 30.25 16.5 30.25Z"
+                d="M16.5 26.125C21.0512 26.125 24.75 22.4262 24.75 17.875V11C24.75 6.44875 21.0512 2.75 16.5 2.75C11.9488 2.75 8.25 6.44875 8.25 11V17.875C8.25 22.4262 11.9488 26.125 16.5 26.125Z"
                 stroke="currentColor"
-                strokeWidth={2}
+                strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M11 19.25C11 19.25 13.0625 22 16.5 22C19.9375 22 22 19.25 22 19.25"
+                d="M4.125 15.125V17.875C4.125 24.7087 9.66625 30.25 16.5 30.25C23.3337 30.25 28.875 24.7087 28.875 17.875V15.125"
                 stroke="currentColor"
-                strokeWidth={2}
+                strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M12.375 12.375H12.3888"
+                d="M12.5264 10.285C14.9739 9.39125 17.6414 9.39125 20.0889 10.285"
                 stroke="currentColor"
-                strokeWidth={2}
+                strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M20.625 12.375H20.6388"
+                d="M13.791 14.41C15.441 13.9562 17.1873 13.9562 18.8373 14.41"
                 stroke="currentColor"
-                strokeWidth={2}
+                strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
@@ -40,4 +41,4 @@ const EmojiIcon = () => {
     )
 }
 
-export default EmojiIcon
+export default MicrophoneIcon

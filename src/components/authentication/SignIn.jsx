@@ -21,7 +21,7 @@ const SignIn = ({ toast }) => {
 
   //style variables
   const textStyle = "text-[#484848] text-[18px]"
-  const inputStyle = "w-[460px] h-[60px] text-[20px] text-[#484848] px-[10px] border-[2px] border-[#D8D8D8] rounded-md outline-none"
+  const inputStyle = "md:w-[460px] w-full h-[60px] text-[20px] text-[#484848] px-[10px] border-[2px] border-[#D8D8D8] rounded-md outline-none"
   const divStyle = "flex flex-col gap-y-3"
   const errorTextStyle = "text-red-500"
 

@@ -5,7 +5,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { LogOut } from "../../features/slices/userLoginSlice";
 import { Bounce, toast } from "react-toastify";
 import { createPortal } from "react-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UploadImage from "../../modals/UploadImage";
 import UploadIcon from "../../icons/UploadIcon";
 import HouseIcon from './../../icons/HouseIcon';
@@ -22,8 +22,21 @@ const Sidebar = () => {
   const [open, setOpen] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const location = useLocation()
-  const windowInnerWidth = window.innerWidth
+  const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+  //for window resizing purpose
+  useEffect(() => {
+
+    const handleResize = () => {
+      setWindowInnerWidth(window.innerWidth)
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+
+  }, [])
 
   function handleLogOut() {
     signOut(auth)

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import FriendDetails from "../home/friendList/singleFriend/FriendDetails";
 import { removeActiveFriend } from "../../features/slices/singleActiveFriendSlice";
 import { motion } from 'framer-motion';
@@ -8,13 +8,28 @@ import { motion } from 'framer-motion';
 const ChatNavbar = ({ activeFriend }) => {
     const friends = useSelector(state => state.friends.friends)
     const dispatch = useDispatch()
-    const windowInnerWidth = window.innerWidth
+    const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth)
 
     const friend = useMemo(() => {
 
         return friends.find(friend => friend.friendID === activeFriend?.friendID)
 
     }, [friends, activeFriend?.friendID])
+
+    //for window resizing purpose
+    useEffect(() => {
+
+        const handleResize = () => {
+            setWindowInnerWidth(window.innerWidth)
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+
+    }, [])
+
+    
 
     return (
         <nav className="bg-[#F9F9F9] h-[13%] w-full flex items-center justify-center px-2 rounded-t-lg">

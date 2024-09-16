@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from "react-redux"
 import FriendList from "../../components/home/friendList/FriendList"
 import ChatContainer from "../../components/messages/chat/ChatContainer"
 import ChatNavbar from "../../components/messages/ChatNavbar"
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { getDatabase } from "firebase/database"
 import { removeActiveFriend } from "../../features/slices/singleActiveFriendSlice"
 import Animation from "../../components/messages/Animation"
@@ -13,7 +14,7 @@ const Messages = () => {
   const friends = useSelector(state => state.friends.friends)
   const db = getDatabase()
   const dispatch = useDispatch()
-  const windowInnerWidth = window.innerWidth
+  const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth)
 
   const isFriend = useMemo(() => {
 
@@ -27,6 +28,19 @@ const Messages = () => {
 
   }, [friends, activeFriend?.friendID])
 
+  //for window resizing purpose
+  useEffect(() => {
+
+    const handleResize = () => {
+      setWindowInnerWidth(window.innerWidth)
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+
+  }, [])
+
   useEffect(() => {
     if (!isFriend) {
       dispatch(removeActiveFriend())
@@ -34,56 +48,62 @@ const Messages = () => {
 
   }, [db, isFriend, dispatch])
 
-  if (windowInnerWidth >= 900) {
-    return (
-      <>
-        <Helmet>
-          <title>Messages</title>
-        </Helmet>
+
+  const renderChatContent = () => (
+    <>
+      <ChatNavbar activeFriend={activeFriend} />
+      <ChatContainer activeFriend={activeFriend} />
+    </>
+  )
+
+  const renderFriendList = (width) => (
+
+    <div className={`h-full ${width} overflow-y-auto shadow-[0_4px_17px_#0000001A] rounded-lg`}>
+
+      <h3 className="font-semibold text-[30px] text-[#494949] p-[20px]">My Friends</h3>
+
+      <FriendList />
+
+    </div>
+  )
+
+  return (
+    <>
+      <Helmet>
+        <title>Messages</title>
+      </Helmet>
+
+      {windowInnerWidth >= 900 ? (
+
         <div className="flex gap-x-5 h-full w-full xl:p-8 px-[10px]">
 
-          <div className="h-full w-[35%] overflow-y-auto shadow-[0_4px_17px_#0000001A] rounded-lg">
+          {renderFriendList("w-[35%]")}
 
-            <h3 className="font-semibold text-[30px] text-[#494949] p-[20px]">My Friends</h3>
+          {
+            activeFriend ? (
 
-            <FriendList />
-
-          </div>
-
-          {activeFriend ? (
-
-            <div className="h-full w-[65%] rounded-lg shadow-[0_4px_10px_#00000024] relative">
-
-              <ChatNavbar activeFriend={activeFriend} />
-
-              <ChatContainer activeFriend={activeFriend} />
-
-            </div>
-
-          ) : (
-
-            <Animation />
-
-          )}
+              <div className="h-full w-[65%] rounded-lg shadow-[0_4px_10px_#00000024]">
+    
+                {renderChatContent()}
+    
+              </div>
+    
+              ) : (
+    
+              <Animation />
+    
+              )
+          }
 
         </div>
-      </>
-    )
-  }
 
-  else if (windowInnerWidth < 900) {
-    return (
-      <>
-        <Helmet>
-          <title>Messages</title>
-        </Helmet>
-        {activeFriend ? (
+      ) : (
 
-          <div className="h-full w-full relative">
+        activeFriend ? (
 
-            <ChatNavbar activeFriend={activeFriend} />
+          <div className="h-full w-full">
 
-            <ChatContainer activeFriend={activeFriend} />
+            {renderChatContent()}
 
           </div>
 
@@ -93,22 +113,14 @@ const Messages = () => {
 
             <h1 className="text-blue-500 text-[30px] text-center font-semibold">Select a Friend to start chatting</h1>
 
-            <div className="w-full h-[98%] overflow-y-auto shadow-[0_4px_17px_#0000001A] rounded-lg">
-
-              <h3 className="font-semibold text-[30px] text-[#494949] p-[20px]">My Friends</h3>
-
-              <FriendList />
-
-            </div>
+            {renderFriendList("w-full")}
 
           </div>
+        )
+      )}
 
-        )}
-
-      </>
-    )
-
-  }
+    </>
+  )
 }
 
 export default Messages

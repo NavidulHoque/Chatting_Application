@@ -1,9 +1,7 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useSelector } from 'react-redux';
 import { getDatabase, onValue, ref } from 'firebase/database';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import Blocked from '../../home/friendList/Blocked';
+import { useEffect, useRef, useState } from 'react';
 import TextMessage from './TextMessage';
 import ImageMessage from './ImageMessage';
 import SendMessage from './SendMessage';
@@ -13,21 +11,6 @@ const ChatContainer = ({ activeFriend }) => {
     const loggedInUser = useSelector(state => state.UserLogin.user)
     const [messages, setMessages] = useState([])
     const scrollRef = useRef(null)
-    const blockees = useSelector(state => state.blockees.blockees)
-    const blockers = useSelector(state => state.blockers.blockers)
-
-    const isBlockeeAvailable = useMemo(() => {
-
-       return blockees.some(blockee => blockee?.blockeeID === activeFriend?.friendID)
-       
-    }, [activeFriend, blockees])
-
-    const isBlockerAvailable = useMemo(() => {
-
-        return blockers.some(blocker => blocker?.blockerID === activeFriend?.friendID)
-        
-     }, [activeFriend, blockers])
-
 
     //fetching messages from db
     useEffect(() => {
@@ -101,11 +84,7 @@ const ChatContainer = ({ activeFriend }) => {
 
                 <SendMessage loggedInUser={loggedInUser} activeFriend={activeFriend} />
 
-            </div >
-
-            { (isBlockerAvailable
-            || isBlockeeAvailable)
-            && <Blocked isBlockerAvailable={isBlockerAvailable} isBlockeeAvailable={isBlockeeAvailable} blockees={blockees} blockers={blockers} activeFriend={activeFriend} />}
+            </div>
         </>
     )
 }

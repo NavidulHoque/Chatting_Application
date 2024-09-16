@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import EmojiIcon from '../../../icons/EmojiIcon';
 import GalleryIcon from '../../../icons/GalleryIcon';
 import EmojiPicker from 'emoji-picker-react';
@@ -8,6 +8,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { getStorage, ref as Ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getDatabase, push, ref, set } from 'firebase/database';
 import MicrophoneIcon from './../../../icons/MicrophoneIcon';
+import Blocked from '../../home/friendList/Blocked';
+import { useSelector } from 'react-redux';
 
 const SendMessage = ({loggedInUser, activeFriend}) => {
     const [message, setMessage] = useState("")
@@ -15,6 +17,20 @@ const SendMessage = ({loggedInUser, activeFriend}) => {
     const storage = getStorage()
     const db = getDatabase()
     const fileRef = useRef(null)
+    const blockees = useSelector(state => state.blockees.blockees)
+    const blockers = useSelector(state => state.blockers.blockers)
+
+    const isBlockeeAvailable = useMemo(() => {
+
+        return blockees.some(blockee => blockee?.blockeeID === activeFriend?.friendID)
+        
+     }, [activeFriend, blockees])
+
+     const isBlockerAvailable = useMemo(() => {
+
+        return blockers.some(blocker => blocker?.blockerID === activeFriend?.friendID)
+        
+     }, [activeFriend, blockers])
 
     function handleSendMessage() {
 
@@ -131,7 +147,7 @@ const SendMessage = ({loggedInUser, activeFriend}) => {
     }
 
     return (
-        <div className="sm:bg-white sm:h-[15%] h-[11%] rounded-b-md flex items-center justify-center">
+        <div className="sm:bg-white sm:h-[15%] h-[11%] rounded-b-md flex items-center justify-center relative">
 
             <div className="bg-[#F5F5F5] sm:w-[90%] w-full self-end sm:self-center flex items-center justify-between gap-x-3 p-[10px] rounded-md">
 
@@ -177,6 +193,10 @@ const SendMessage = ({loggedInUser, activeFriend}) => {
                 <button onClick={handleSendMessage} className='bg-[#3E8DEB] text-white text-[20px] rounded-lg w-[134px] h-[54px]'>Send</button>
 
             </div>
+
+            { (isBlockerAvailable
+            || isBlockeeAvailable)
+            && <Blocked isBlockerAvailable={isBlockerAvailable} isBlockeeAvailable={isBlockeeAvailable} blockees={blockees} blockers={blockers} activeFriend={activeFriend} />}
 
         </div>
     )

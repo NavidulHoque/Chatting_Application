@@ -4,15 +4,16 @@ import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { Bounce } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { LogIn } from "../../features/slices/userLoginSlice";
 import { signIn } from "../../validation/Validation";
 import InputField from "./common/InputField";
 import Button from "./common/Button";
 import Redirect from "./common/Redirect";
+import Form from "./common/Form";
 
-const SignIn = ({ toast }) => {
+const SignIn = () => {
 
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
@@ -102,10 +103,7 @@ const SignIn = ({ toast }) => {
   }
 
   return (
-    <form
-      onSubmit={formik.handleSubmit}
-      className="flex flex-col gap-y-7 w-full font-interRegular"
-    >
+    <Form onSubmit={formik.handleSubmit}>
 
       <InputField 
         divStyle={divStyle} 
@@ -140,7 +138,7 @@ const SignIn = ({ toast }) => {
 
       <Redirect label="Don’t have an account?" link="sign up" path="registration" />
 
-    </form>
+    </Form>
   )
 }
 

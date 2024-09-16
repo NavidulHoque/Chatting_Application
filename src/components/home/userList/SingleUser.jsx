@@ -44,6 +44,7 @@ const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
             receiverPhoto: receiver.photoURL
         })
     }
+    
     return (
         friendRequests.includes(loggedInUser.id + user.id) ?
             (

@@ -8,6 +8,7 @@ import { getDatabase, ref, set } from "firebase/database";
 import InputField from "./common/InputField";
 import Button from "./common/Button";
 import Redirect from "./common/Redirect";
+import Form from "./common/Form";
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const SignUp = () => {
 
   //style variables
   const textStyle = "text-[#484848] text-[18px]"
-  const inputStyle = "w-[460px] h-[60px] text-[20px] text-[#484848] px-[10px] border-[2px] border-[#D8D8D8] rounded-md outline-none"
+  const inputStyle = "md:w-[460px] w-full h-[60px] text-[20px] text-[#484848] px-[10px] border-[2px] border-[#D8D8D8] rounded-md outline-none"
   const divStyle = "flex flex-col gap-y-3"
   const errorTextStyle = "text-red-500"
 
@@ -130,7 +131,7 @@ const SignUp = () => {
   }
 
   return (
-    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-y-7 w-full font-interRegular">
+    <Form onSubmit={formik.handleSubmit}>
 
       <InputField
         divStyle={divStyle}
@@ -180,8 +181,8 @@ const SignUp = () => {
 
       <Redirect label="Already have an account?" link="sign in" path="login" />
 
-    </form>
-  );
-};
+    </Form>
+  )
+}
 
 export default SignUp;

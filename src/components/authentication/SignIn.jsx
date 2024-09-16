@@ -133,7 +133,7 @@ const SignIn = () => {
         to='/passwordReset'
         className="text-[#4A4A4A] text-[16px] underline cursor-pointer justify-self-start"
       >
-        Forget Password?
+        forget Password?
       </Link>
 
       <Redirect label="Don’t have an account?" link="sign up" path="registration" />

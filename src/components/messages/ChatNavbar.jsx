@@ -40,7 +40,7 @@ const ChatNavbar = ({ activeFriend }) => {
                 <motion.button
                     className='lg:w-[120px] w-[100px] h-[41px] rounded bg-[#4A81D3] text-white'
                     onClick={() => dispatch(removeActiveFriend())}
-                    whileHover={{ scale: 1.2 }}
+                    whileHover={{ scale: 1.1 }}
                     whileTap={{
                         scale: 0.8,
                         rotate: -90,

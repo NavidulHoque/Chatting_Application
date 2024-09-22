@@ -37,7 +37,7 @@ const FriendRequestList = ({ friendRequests, cancelRequests }) => {
     }, [db, loggedInUser.id, friendRequests])
     
 
-    function handleRejection(sender) {
+    const handleRejection = (sender) => {
         const cancelRequestID = cancelRequests.find(req => req.receiverID === loggedInUser.id && req.senderID === sender.id).friendRequestID
 
         const deleteRef = ref(db, `friendRequests/${cancelRequestID}`)
@@ -62,7 +62,7 @@ const FriendRequestList = ({ friendRequests, cancelRequests }) => {
     }
 
 
-    function handleAcceptance(sender) {
+    const handleAcceptance = (sender) => {
 
         const friendship = {
             friend1Name: sender.displayName,

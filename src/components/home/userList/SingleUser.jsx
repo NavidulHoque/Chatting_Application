@@ -7,7 +7,7 @@ import UserDetails from '../common/UserDetails';
 const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
     const db = getDatabase()
 
-    function handleCancelRequest(user) {
+    const handleCancelRequest = (user) => {
 
         const cancelRequestID = cancelRequests.find(req => req.receiverID === user.id && req.senderID === loggedInUser.id).friendRequestID
 
@@ -32,7 +32,7 @@ const SingleUser = ({ user, cancelRequests, loggedInUser, friendRequests }) => {
             });
     }
 
-    function handleSendFriendRequest(receiver) {
+    const handleSendFriendRequest = (receiver) => {
 
         //storing the data in the database
         set(push(ref(db, 'friendRequests/')), {

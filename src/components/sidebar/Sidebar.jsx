@@ -38,7 +38,7 @@ const Sidebar = () => {
 
   }, [])
 
-  function handleLogOut() {
+  const handleLogOut = () => {
     signOut(auth)
       .then(() => {
 
@@ -141,10 +141,10 @@ const Sidebar = () => {
           <motion.button
             onClick={handleLogOut}
             className="text-white text-[20px] flex items-center justify-center gap-x-2"
-            whileHover={{ scale: 1.2 }}
+            whileHover={{ scale: 1.1 }}
             whileTap={{
               scale: 0.8,
-              rotate: -90,
+              rotate: -45,
               borderRadius: "100%"
             }}
           >

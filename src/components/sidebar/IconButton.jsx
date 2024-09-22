@@ -10,10 +10,10 @@ const IconButton = ({children, path}) => {
             onClick={() => navigate(`/${path}`)}
             className="cursor-pointer text-white"
             disabled={location.pathname === `/${path}`}
-            whileHover={{ scale: 1.2 }}
+            whileHover={{ scale: 1.1 }}
             whileTap={{
                 scale: 0.8,
-                rotate: -90,
+                rotate: -45,
                 borderRadius: "100%"
             }}
         >

@@ -7,11 +7,11 @@ import { Bounce, toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, ref as Ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getDatabase, push, ref, set } from 'firebase/database';
-import MicrophoneIcon from './../../../icons/MicrophoneIcon';
 import Blocked from '../../home/friendList/Blocked';
 import { useSelector } from 'react-redux';
+import { AudioRecorder } from 'react-audio-voice-recorder';
 
-const SendMessage = ({loggedInUser, activeFriend}) => {
+const SendMessage = ({ loggedInUser, activeFriend }) => {
     const [message, setMessage] = useState("")
     const [showEmoji, setShowEmoji] = useState(false)
     const storage = getStorage()
@@ -23,16 +23,16 @@ const SendMessage = ({loggedInUser, activeFriend}) => {
     const isBlockeeAvailable = useMemo(() => {
 
         return blockees.some(blockee => blockee?.blockeeID === activeFriend?.friendID)
-        
-     }, [activeFriend, blockees])
 
-     const isBlockerAvailable = useMemo(() => {
+    }, [activeFriend, blockees])
+
+    const isBlockerAvailable = useMemo(() => {
 
         return blockers.some(blocker => blocker?.blockerID === activeFriend?.friendID)
-        
-     }, [activeFriend, blockers])
 
-    function handleSendMessage() {
+    }, [activeFriend, blockers])
+
+    const handleSendMessage = () => {
 
         if (message !== "") {
             //storing the data in the database
@@ -41,6 +41,7 @@ const SendMessage = ({loggedInUser, activeFriend}) => {
                 receiverID: activeFriend?.friendID,
                 message,
                 photoURL: "",
+                audioMessage: "",
                 date: new Date().toString()
             })
 
@@ -63,11 +64,11 @@ const SendMessage = ({loggedInUser, activeFriend}) => {
         }
     }
 
-    function handleAddEmoji({ emoji }) {
+    const handleAddEmoji = ({ emoji }) => {
         setMessage(prev => prev + emoji)
     }
 
-    function handleSendImage(e) {
+    const handleSendImage = (e) => {
         const file = e.target.files[0]
         const isImageFile = file.type.includes("image")
 
@@ -110,6 +111,7 @@ const SendMessage = ({loggedInUser, activeFriend}) => {
                             receiverID: activeFriend?.friendID,
                             message: "",
                             photoURL: downloadURL,
+                            audioMessage: "",
                             date: new Date().toString()
                         })
                     })
@@ -146,6 +148,49 @@ const SendMessage = ({loggedInUser, activeFriend}) => {
         }
     }
 
+    const handleSendAudio = (blob) => {
+        console.log(blob)
+
+        const audioFile = new File([blob], `audio_${uuidv4()}.mp3`, { type: 'audio/mp3' });
+        const storageRef = Ref(storage, `${loggedInUser.displayName} = messageAudios/${audioFile.name}`);
+
+        const uploadTask = uploadBytesResumable(storageRef, audioFile)
+
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+            },
+            () => {
+                toast.error("Something went wrong, please try to send your audio again", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                });
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    // Storing the audio message in the Realtime DB
+                    set(push(ref(db, 'messages/')), {
+                        senderID: loggedInUser.id,
+                        receiverID: activeFriend?.friendID,
+                        message: "",
+                        photoURL: "",
+                        audioMessage: downloadURL,
+                        date: new Date().toString(),
+                    })
+                })
+            }
+        )
+    }
+
     return (
         <div className="sm:bg-white sm:h-[15%] h-[11%] rounded-b-md flex items-center justify-center relative">
 
@@ -153,9 +198,14 @@ const SendMessage = ({loggedInUser, activeFriend}) => {
 
                 <div className="flex gap-x-3">
 
-                    <div className="#292D32 cursor-pointer">
-                        <MicrophoneIcon />
-                    </div>
+                    <AudioRecorder
+                        onRecordingComplete={handleSendAudio}
+                        audioTrackConstraints={{
+                            noiseSuppression: true,
+                            echoCancellation: true,
+                        }}
+                        downloadOnSavePress={false}
+                    />
 
                     <div className='relative'>
 
@@ -194,9 +244,9 @@ const SendMessage = ({loggedInUser, activeFriend}) => {
 
             </div>
 
-            { (isBlockerAvailable
-            || isBlockeeAvailable)
-            && <Blocked isBlockerAvailable={isBlockerAvailable} isBlockeeAvailable={isBlockeeAvailable} blockees={blockees} blockers={blockers} activeFriend={activeFriend} />}
+            {(isBlockerAvailable
+                || isBlockeeAvailable)
+                && <Blocked isBlockerAvailable={isBlockerAvailable} isBlockeeAvailable={isBlockeeAvailable} blockees={blockees} blockers={blockers} activeFriend={activeFriend} />}
 
         </div>
     )

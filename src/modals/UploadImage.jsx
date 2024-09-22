@@ -25,7 +25,7 @@ const UploadImage = ({ setOpen }) => {
     const [storageRef, setStorageRef] = useState(null)
     const dispatch = useDispatch()
 
-    function handleChange(e) {
+    const handleChange = (e) => {
 
         e.preventDefault()
 

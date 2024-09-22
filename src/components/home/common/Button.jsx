@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 const Button = ({ label, handleClick, user, bgColor }) => {
     return (
         <motion.button
-            whileHover={{ scale: 1.2 }}
+            whileHover={{ scale: 1.1 }}
             whileTap={{
                 scale: 0.8,
-                rotate: -90,
+                rotate: -45,
                 borderRadius: "100%"
             }}
             onClick={(e) => {

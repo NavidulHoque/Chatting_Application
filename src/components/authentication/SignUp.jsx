@@ -34,7 +34,7 @@ const SignUp = () => {
     validationSchema: signUp,
   });
 
-  function createNewUser() {
+  const createNewUser = () => {
     setLoading(true);
 
     createUserWithEmailAndPassword(

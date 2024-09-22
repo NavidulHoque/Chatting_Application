@@ -38,7 +38,7 @@ const SignIn = () => {
     validationSchema: signIn,
   });
 
-  function signInCurrentUser() {
+  const signInCurrentUser = () => {
     setLoading(true)
 
     signInWithEmailAndPassword(

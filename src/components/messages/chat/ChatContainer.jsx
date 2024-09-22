@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import TextMessage from './TextMessage';
 import ImageMessage from './ImageMessage';
 import SendMessage from './SendMessage';
+import AudioMessage from './AudioMessage';
 
 const ChatContainer = ({ activeFriend }) => {
     const db = getDatabase()
@@ -51,6 +52,7 @@ const ChatContainer = ({ activeFriend }) => {
 
                         {messages.map(message => {
 
+                            // sender's text message
                             if (message.senderID === loggedInUser.id && message.message) {
                                 return (
 
@@ -58,6 +60,7 @@ const ChatContainer = ({ activeFriend }) => {
                                 )
                             }
 
+                            // receiver's text message
                             else if (message.receiverID === loggedInUser.id && message.message) {
                                 return (
 
@@ -65,15 +68,31 @@ const ChatContainer = ({ activeFriend }) => {
                                 )
                             }
 
+                            // sender's image message
                             else if (message.senderID === loggedInUser.id && message.photoURL) {
                                 return (
                                     <ImageMessage key={message.messageID} message={message} alignSelf="self-end" />
                                 )
                             }
 
+                            // receiver's image message
                             else if (message.receiverID === loggedInUser.id && message.photoURL) {
                                 return (
                                     <ImageMessage key={message.messageID} message={message} alignSelf="self-start" />
+                                )
+                            }
+
+                            // sender's audio message
+                            else if (message.senderID === loggedInUser.id && message.audioMessage) {
+                                return (
+                                    <AudioMessage key={message.messageID} message={message} alignSelf="self-end" />
+                                )
+                            }
+
+                            // receiver's audio message
+                            else if (message.receiverID === loggedInUser.id && message.audioMessage) {
+                                return (
+                                    <AudioMessage key={message.messageID} message={message} alignSelf="self-start" />
                                 )
                             }
                         })}

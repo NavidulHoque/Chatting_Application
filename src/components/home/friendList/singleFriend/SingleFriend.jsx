@@ -73,7 +73,7 @@ const SingleFriend = ({ friend, unfriendInfo, loggedInUser }) => {
     }, [db, loggedInUser, dispatch])
 
 
-    function handleUnfriend(friend) {
+    const handleUnfriend = (friend) => {
 
         const unfriendID = unfriendInfo.find((info) => info.friendID === friend.friendID).friendshipID
 
@@ -98,7 +98,7 @@ const SingleFriend = ({ friend, unfriendInfo, loggedInUser }) => {
             })
     }
 
-    function handleBlock(friend) {
+    const handleBlock = (friend) => {
 
         //storing the data in the database
         set(push(ref(db, 'blocks/')), {
@@ -110,7 +110,7 @@ const SingleFriend = ({ friend, unfriendInfo, loggedInUser }) => {
 
     }
 
-    function handleUnblock(friend) {
+    const handleUnblock = (friend) => {
 
         const blockID = blockees.find(blockee => blockee.blockeeID === friend.friendID).blockID
 

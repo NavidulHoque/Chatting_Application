@@ -9,7 +9,7 @@ import { getStorage, ref as Ref, uploadBytesResumable, getDownloadURL } from "fi
 import { getDatabase, push, ref, set } from 'firebase/database';
 import Blocked from '../../home/friendList/Blocked';
 import { useSelector } from 'react-redux';
-import { AudioRecorder } from 'react-audio-voice-recorder';
+import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 
 const SendMessage = ({ loggedInUser, activeFriend }) => {
     const [message, setMessage] = useState("")
@@ -19,6 +19,8 @@ const SendMessage = ({ loggedInUser, activeFriend }) => {
     const fileRef = useRef(null)
     const blockees = useSelector(state => state.blockees.blockees)
     const blockers = useSelector(state => state.blockers.blockers)
+
+    const recorderControls = useAudioRecorder();
 
     const isBlockeeAvailable = useMemo(() => {
 
@@ -149,7 +151,6 @@ const SendMessage = ({ loggedInUser, activeFriend }) => {
     }
 
     const handleSendAudio = (blob) => {
-        console.log(blob)
 
         const audioFile = new File([blob], `audio_${uuidv4()}.mp3`, { type: 'audio/mp3' });
         const storageRef = Ref(storage, `${loggedInUser.displayName} = messageAudios/${audioFile.name}`);
@@ -196,16 +197,21 @@ const SendMessage = ({ loggedInUser, activeFriend }) => {
 
             <div className="bg-[#F5F5F5] sm:w-[90%] w-full self-end sm:self-center flex items-center justify-between gap-x-3 p-[10px] rounded-md">
 
-                <div className="flex gap-x-3">
+                <div className='flex items-center gap-x-3 relative'>
 
-                    <AudioRecorder
-                        onRecordingComplete={handleSendAudio}
-                        audioTrackConstraints={{
-                            noiseSuppression: true,
-                            echoCancellation: true,
-                        }}
-                        downloadOnSavePress={false}
-                    />
+                    <div className={`${recorderControls.isRecording ? "absolute z-10" : ""}`}>
+
+                        <AudioRecorder
+                            onRecordingComplete={handleSendAudio}
+                            audioTrackConstraints={{
+                                noiseSuppression: true,
+                                echoCancellation: true,
+                            }}
+                            downloadOnSavePress={false}
+                            recorderControls={recorderControls}
+                        />
+
+                    </div>
 
                     <div className='relative'>
 

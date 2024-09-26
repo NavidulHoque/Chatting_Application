@@ -102,7 +102,7 @@ const Home = () => {
 
           </motion.h1>
 
-          <div className="h-[500px] flex justify-center items-center gap-x-24">
+          <div className="h-[500px] flex sm:flex-row flex-col justify-center items-center gap-24">
 
             <Animation />
 
